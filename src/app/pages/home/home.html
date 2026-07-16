@@ -1,0 +1,252 @@
+<header class="main-header">
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+    <a class="navbar-brand" routerLink="/">
+        <span class="logo-icon">✓</span>
+        <span>ARGENDA</span>
+    </a>
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="mainNavbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+            <a class="nav-link active" routerLink="/">Inicio</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/servicios">Servicios</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#beneficios">Beneficios</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#como-funciona">Cómo funciona</a>
+        </li>
+        </ul>
+
+        <div class="navbar-actions">
+        <a class="login-link" routerLink="/iniciar-sesion">
+            Iniciar sesión
+        </a>
+
+        <a class="btn btn-primary-custom" routerLink="/registro">
+            Crear cuenta gratis
+        </a>
+        </div>
+    </div>
+    </div>
+</nav>
+</header>
+
+<main>
+<section class="hero-section">
+    <div class="container">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+        <span class="hero-badge">
+            ● Turnos simples, rápidos y organizados
+        </span>
+
+        <h1>
+            Tu agenda de turnos,
+            <span>ordenada y sin complicaciones.</span>
+        </h1>
+
+        <p class="hero-description">
+            Reservá servicios de estética, elegí el día y horario que más te
+            convenga y administrá todos tus turnos desde un solo lugar.
+        </p>
+
+        <div class="hero-actions">
+            <a
+            class="btn btn-primary-custom btn-lg"
+            routerLink="/reservar"
+            >
+            Reservar un turno
+            </a>
+
+            <a
+            class="btn btn-outline-custom btn-lg"
+            routerLink="/servicios"
+            >
+            Ver servicios
+            </a>
+        </div>
+
+        <div class="hero-features">
+            <span>✓ Reserva rápida</span>
+            <span>✓ Disponible las 24 horas</span>
+            <span>✓ Sin llamadas</span>
+        </div>
+        </div>
+
+        <div class="col-lg-6">
+        <div class="appointment-preview">
+            <div class="preview-header">
+            <div>
+                <span class="preview-label">Agenda semanal</span>
+                <h2>Próximos turnos</h2>
+            </div>
+
+            <span class="preview-status">En línea</span>
+            </div>
+
+            <div class="calendar-days">
+            <div class="calendar-day">
+                <span>LUN</span>
+                <strong>20</strong>
+            </div>
+
+            <div class="calendar-day active">
+                <span>MAR</span>
+                <strong>21</strong>
+            </div>
+
+            <div class="calendar-day">
+                <span>MIÉ</span>
+                <strong>22</strong>
+            </div>
+
+            <div class="calendar-day">
+                <span>JUE</span>
+                <strong>23</strong>
+            </div>
+
+            <div class="calendar-day">
+                <span>VIE</span>
+                <strong>24</strong>
+            </div>
+            </div>
+
+            <div class="appointment-item">
+            <div class="appointment-time">09:30</div>
+
+            <div class="appointment-info">
+                <strong>Limpieza facial</strong>
+                <span>María González</span>
+            </div>
+
+            <span class="appointment-confirmed">Confirmado</span>
+            </div>
+
+            <div class="appointment-item">
+            <div class="appointment-time">11:00</div>
+
+            <div class="appointment-info">
+                <strong>Manicura</strong>
+                <span>Carolina López</span>
+            </div>
+
+            <span class="appointment-pending">Pendiente</span>
+            </div>
+
+            <div class="appointment-item">
+            <div class="appointment-time">15:30</div>
+
+            <div class="appointment-info">
+                <strong>Masaje relajante</strong>
+                <span>Lucía Fernández</span>
+            </div>
+
+            <span class="appointment-confirmed">Confirmado</span>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="beneficios" class="benefits-section">
+    <div class="container">
+    <div class="section-heading">
+        <span>TODO EN UN SOLO LUGAR</span>
+        <h2>Reservar un turno nunca fue tan fácil</h2>
+        <p>
+        Una experiencia simple para que encuentres y reserves el servicio
+        que necesitás.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+        <article class="benefit-card">
+            <div class="benefit-icon">01</div>
+            <h3>Elegí tu servicio</h3>
+            <p>
+            Consultá las opciones disponibles y elegí el tratamiento ideal
+            para vos.
+            </p>
+        </article>
+        </div>
+
+        <div class="col-md-4">
+        <article class="benefit-card">
+            <div class="benefit-icon">02</div>
+            <h3>Seleccioná un horario</h3>
+            <p>
+            Revisá los días y horarios disponibles y elegí el que mejor se
+            adapte a tu agenda.
+            </p>
+        </article>
+        </div>
+
+        <div class="col-md-4">
+        <article class="benefit-card">
+            <div class="benefit-icon">03</div>
+            <h3>Confirmá tu turno</h3>
+            <p>
+            Revisá los datos, confirmá la reserva y administrá tus próximos
+            turnos.
+            </p>
+        </article>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="como-funciona" class="cta-section">
+    <div class="container">
+    <div class="cta-box">
+        <div>
+        <span class="cta-label">EMPEZÁ AHORA</span>
+        <h2>Tu próximo turno está a pocos pasos</h2>
+        <p>
+            Creá tu cuenta gratis y empezá a reservar servicios de estética.
+        </p>
+        </div>
+
+        <a class="btn btn-orange-custom btn-lg" routerLink="/registro">
+        Crear cuenta gratis
+        </a>
+    </div>
+    </div>
+</section>
+</main>
+
+<footer class="main-footer">
+<div class="container">
+    <div class="footer-content">
+    <div class="footer-brand">
+        <span class="logo-icon">✓</span>
+        <span>ARGENDA</span>
+    </div>
+
+    <p>
+        © 2026 Argenda. Proyecto MVP para gestión y reserva de turnos.
+    </p>
+    </div>
+</div>
+</footer>
