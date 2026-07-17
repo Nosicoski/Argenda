@@ -3,43 +3,230 @@
     <div class="booking-heading">
     <span>RESERVAR TURNO</span>
 
-    <h1>Elegí un servicio</h1>
+    @if (currentStep === 1) {
+        <h1>Elegí un servicio</h1>
+        <p>Seleccioná el tratamiento que querés reservar.</p>
+    }
 
-    <p>
-        Seleccioná el tratamiento que querés reservar.
-    </p>
+    @if (currentStep === 2) {
+        <h1>Elegí fecha y horario</h1>
+        <p>Seleccioná el momento que más te convenga.</p>
+    }
+
+    @if (currentStep === 3 && !bookingConfirmed) {
+        <h1>Confirmá tu turno</h1>
+        <p>Revisá los datos antes de finalizar la reserva.</p>
+    }
+
+    @if (bookingConfirmed) {
+        <h1>Reserva completada</h1>
+        <p>Tu turno fue guardado correctamente.</p>
+    }
+    </div>
+
+    <div class="steps">
+    <div
+        class="step"
+        [class.active]="currentStep >= 1"
+    >
+        <span>1</span>
+        <p>Servicio</p>
+    </div>
+
+    <div
+        class="step-line"
+        [class.active]="currentStep >= 2"
+    ></div>
+
+    <div
+        class="step"
+        [class.active]="currentStep >= 2"
+    >
+        <span>2</span>
+        <p>Fecha y horario</p>
+    </div>
+
+    <div
+        class="step-line"
+        [class.active]="currentStep >= 3"
+    ></div>
+
+    <div
+        class="step"
+        [class.active]="currentStep >= 3"
+    >
+        <span>3</span>
+        <p>Confirmación</p>
+    </div>
     </div>
 
     <section class="booking-card">
-    <div class="services-list">
+    @if (currentStep === 1) {
+        <div class="services-list">
         @for (service of services; track service.id) {
-        <button
+            <button
             type="button"
             class="service-option"
             [class.selected]="selectedServiceId === service.id"
             (click)="selectService(service.id)"
-        >
+            >
             <div class="service-information">
-            <strong>{{ service.name }}</strong>
-            <span>{{ service.duration }}</span>
+                <strong>{{ service.name }}</strong>
+                <span>{{ service.duration }}</span>
             </div>
 
             <span class="service-price">
-            $ {{ service.price }}
+                $ {{ service.price }}
             </span>
-        </button>
+            </button>
         }
-    </div>
+        </div>
 
-    <div class="booking-actions">
+        <div class="booking-actions right">
         <button
-        type="button"
-        class="btn btn-continue"
-        [disabled]="selectedServiceId === null"
+            type="button"
+            class="btn btn-continue"
+            [disabled]="selectedServiceId === null"
+            (click)="nextStep()"
         >
-        Continuar
+            Continuar
         </button>
-    </div>
+        </div>
+    }
+
+    @if (currentStep === 2) {
+        <div class="date-container">
+        <label for="appointmentDate">
+            Elegí una fecha
+        </label>
+
+        <input
+            id="appointmentDate"
+            type="date"
+            name="appointmentDate"
+            class="form-control"
+            [(ngModel)]="selectedDate"
+        >
+        </div>
+
+        <div class="time-container">
+        <label>Horarios disponibles</label>
+
+        <div class="times-grid">
+            @for (time of availableTimes; track time) {
+            <button
+                type="button"
+                class="time-option"
+                [class.selected]="selectedTime === time"
+                (click)="selectTime(time)"
+            >
+                {{ time }}
+            </button>
+            }
+        </div>
+        </div>
+
+        <div class="booking-actions">
+        <button
+            type="button"
+            class="btn btn-back"
+            (click)="previousStep()"
+        >
+            Volver
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-continue"
+            [disabled]="!selectedDate || !selectedTime"
+            (click)="nextStep()"
+        >
+            Continuar
+        </button>
+        </div>
+    }
+
+    @if (currentStep === 3 && !bookingConfirmed) {
+        <div>
+        <h2>Resumen del turno</h2>
+
+        <p class="step-description">
+            Revisá que todos los datos sean correctos.
+        </p>
+
+        <div class="booking-summary">
+            <div class="summary-row">
+            <span>Servicio</span>
+            <strong>{{ selectedService?.name }}</strong>
+            </div>
+
+            <div class="summary-row">
+            <span>Duración</span>
+            <strong>{{ selectedService?.duration }}</strong>
+            </div>
+
+            <div class="summary-row">
+            <span>Fecha</span>
+            <strong>{{ selectedDate }}</strong>
+            </div>
+
+            <div class="summary-row">
+            <span>Horario</span>
+            <strong>{{ selectedTime }}</strong>
+            </div>
+
+            <div class="summary-row total">
+            <span>Total</span>
+            <strong>$ {{ selectedService?.price }}</strong>
+            </div>
+        </div>
+
+        <div class="booking-actions">
+            <button
+            type="button"
+            class="btn btn-back"
+            (click)="previousStep()"
+            >
+            Volver
+            </button>
+
+            <button
+            type="button"
+            class="btn btn-confirm"
+            (click)="confirmBooking()"
+            >
+            Confirmar turno
+            </button>
+        </div>
+        </div>
+    }
+
+    @if (bookingConfirmed) {
+        <div class="confirmation-message">
+        <div class="confirmation-icon">✓</div>
+
+        <h2>¡Turno confirmado!</h2>
+
+        <p>
+            Tu turno fue guardado correctamente.
+        </p>
+
+        <div class="confirmation-details">
+            <strong>{{ selectedService?.name }}</strong>
+
+            <span>
+            {{ selectedDate }} a las {{ selectedTime }}
+            </span>
+        </div>
+
+        <a
+            routerLink="/mis-turnos"
+            class="btn btn-confirm"
+        >
+            Ver mis turnos
+        </a>
+        </div>
+    }
     </section>
 </div>
 </main>
