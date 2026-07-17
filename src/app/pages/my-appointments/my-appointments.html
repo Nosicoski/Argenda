@@ -1,1 +1,98 @@
-<p>my-appointments works!</p>
+<header class="appointments-header">
+<div class="container header-content">
+    <a class="brand" routerLink="/">
+    <span class="brand-icon">✓</span>
+    <span>ARGENDA</span>
+    </a>
+
+    <a class="back-link" routerLink="/">
+    Volver al inicio
+    </a>
+</div>
+</header>
+
+<main class="appointments-page">
+<div class="container">
+    <div class="appointments-heading">
+    <span>MIS TURNOS</span>
+
+    <h1>Administrá tus reservas</h1>
+
+    <p>
+        Consultá tus próximos turnos y cancelalos cuando sea necesario.
+    </p>
+    </div>
+
+    @if (appointments.length === 0) {
+    <section class="empty-state">
+        <div class="empty-icon">📅</div>
+
+        <h2>No tenés turnos reservados</h2>
+
+        <p>
+        Cuando reserves un turno aparecerá en esta sección.
+        </p>
+
+        <a
+        class="btn btn-primary-appointments"
+        routerLink="/reservar"
+        >
+        Reservar un turno
+        </a>
+    </section>
+    } @else {
+    <section class="appointments-list">
+        @for (appointment of appointments; track appointment.id) {
+        <article class="appointment-card">
+            <div class="appointment-main">
+            <div class="appointment-icon">✓</div>
+
+            <div>
+                <span class="appointment-status">
+                {{ appointment.status }}
+                </span>
+
+                <h2>{{ appointment.service }}</h2>
+
+                <p>
+                {{ appointment.date }} a las {{ appointment.time }}
+                </p>
+            </div>
+            </div>
+
+            <div class="appointment-details">
+            <div>
+                <span>Duración</span>
+                <strong>{{ appointment.duration }}</strong>
+            </div>
+
+            <div>
+                <span>Precio</span>
+                <strong>$ {{ appointment.price }}</strong>
+            </div>
+            </div>
+
+            <div class="appointment-actions">
+            <button
+                type="button"
+                class="btn btn-cancel"
+                (click)="cancelAppointment(appointment.id)"
+            >
+                Cancelar turno
+            </button>
+            </div>
+        </article>
+        }
+    </section>
+
+    <div class="new-booking">
+        <a
+        class="btn btn-primary-appointments"
+        routerLink="/reservar"
+        >
+        Reservar otro turno
+        </a>
+    </div>
+    }
+</div>
+</main>
