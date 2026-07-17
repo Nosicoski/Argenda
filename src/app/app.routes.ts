@@ -7,41 +7,39 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { MyAppointments } from './pages/my-appointments/my-appointments';
 
-
 export const routes: Routes = [
 {
     path: '',
     component: Home,
-    title: 'Inicio | Argenda',
+    title: 'Inicio | Argenda'
 },
 {
     path: 'servicios',
     component: Services,
-    title: 'Servicios | Argenda',
+    title: 'Servicios | Argenda'
 },
 {
     path: 'reservar',
     component: Booking,
-    title: 'Reservar turno | Argenda',
+    title: 'Reservar turno | Argenda'
 },
 {
     path: 'iniciar-sesion',
     component: Login,
-    title: 'Iniciar sesión | Argenda',
+    title: 'Iniciar sesión | Argenda'
 },
 {
     path: 'registro',
     component: Register,
-    title: 'Registro | Argenda',
+    title: 'Registro | Argenda'
 },
 {
     path: 'mis-turnos',
     component: MyAppointments,
-    title: 'Mis turnos | Argenda',
+    title: 'Mis turnos | Argenda'
 },
 {
     path: '**',
-    redirectTo: '',
-},
+    redirectTo: ''
+}
 ];
-

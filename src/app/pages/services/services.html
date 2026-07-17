@@ -1,1 +1,138 @@
-<p>services works!</p>
+<header class="services-header">
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+    <a class="navbar-brand" routerLink="/">
+        <span class="logo-icon">✓</span>
+        <span>ARGENDA</span>
+    </a>
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#servicesNavbar"
+        aria-controls="servicesNavbar"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="servicesNavbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/">Inicio</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link active" routerLink="/servicios">Servicios</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/mis-turnos">Mis turnos</a>
+        </li>
+        </ul>
+
+        <div class="navbar-actions">
+        <a class="login-link" routerLink="/iniciar-sesion">
+            Iniciar sesión
+        </a>
+
+        <a class="btn btn-primary-custom" routerLink="/reservar">
+            Reservar turno
+        </a>
+        </div>
+    </div>
+    </div>
+</nav>
+</header>
+
+<main>
+<section class="services-hero">
+    <div class="container">
+    <span class="section-tag">NUESTROS SERVICIOS</span>
+
+    <h1>Elegí el tratamiento ideal para vos</h1>
+
+    <p>
+        Conocé las opciones disponibles, compará duración y precio y reservá
+        tu próximo turno en pocos pasos.
+    </p>
+    </div>
+</section>
+
+<section class="services-list">
+    <div class="container">
+    <div class="row g-4">
+        <div
+        class="col-sm-6 col-lg-4"
+          *ngFor="let service of services"
+        >
+        <article class="service-card">
+            <div class="service-icon">
+            {{ service.icon }}
+            </div>
+
+            <span class="service-category">
+            {{ service.category }}
+            </span>
+            <h2>{{ service.name }}</h2>
+
+            <p class="service-description">
+            {{ service.description }}
+            </p>
+
+            <div class="service-data">
+            <span>
+                <strong>Duración</strong>
+                {{ service.duration }}
+            </span>
+
+            <span>
+                <strong>Precio</strong>
+                {{ service.price | currency:'ARS':'symbol':'1.0-0' }}
+            </span>
+            </div>
+
+            <a
+            class="btn btn-service"
+            routerLink="/reservar"
+            >
+            Reservar este servicio
+            </a>
+        </article>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="services-cta">
+    <div class="container">
+    <div class="cta-content">
+        <div>
+        <span>¿NO SABÉS CUÁL ELEGIR?</span>
+        <h2>Encontrá el servicio indicado para vos</h2>
+        <p>
+            Podés revisar todas las opciones y reservar el horario que más te
+            convenga.
+        </p>
+        </div>
+
+        <a class="btn btn-cta" routerLink="/reservar">
+        Comenzar reserva
+        </a>
+    </div>
+    </div>
+</section>
+</main>
+
+<footer class="services-footer">
+<div class="container footer-content">
+    <div class="footer-brand">
+    <span class="logo-icon">✓</span>
+    <span>ARGENDA</span>
+    </div>
+
+    <p>© 2026 Argenda. Gestión y reserva de turnos.</p>
+</div>
+</footer>

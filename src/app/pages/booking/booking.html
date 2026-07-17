@@ -1,1 +1,45 @@
-<p>booking works!</p>
+<main class="booking-page">
+<div class="container">
+    <div class="booking-heading">
+    <span>RESERVAR TURNO</span>
+
+    <h1>Elegí un servicio</h1>
+
+    <p>
+        Seleccioná el tratamiento que querés reservar.
+    </p>
+    </div>
+
+    <section class="booking-card">
+    <div class="services-list">
+        @for (service of services; track service.id) {
+        <button
+            type="button"
+            class="service-option"
+            [class.selected]="selectedServiceId === service.id"
+            (click)="selectService(service.id)"
+        >
+            <div class="service-information">
+            <strong>{{ service.name }}</strong>
+            <span>{{ service.duration }}</span>
+            </div>
+
+            <span class="service-price">
+            $ {{ service.price }}
+            </span>
+        </button>
+        }
+    </div>
+
+    <div class="booking-actions">
+        <button
+        type="button"
+        class="btn btn-continue"
+        [disabled]="selectedServiceId === null"
+        >
+        Continuar
+        </button>
+    </div>
+    </section>
+</div>
+</main>

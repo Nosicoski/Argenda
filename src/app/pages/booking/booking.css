@@ -1,0 +1,140 @@
+:host {
+display: block;
+min-height: 100vh;
+color: #29434e;
+background-color: #f4fbfb;
+}
+
+.booking-page {
+min-height: 100vh;
+padding: 70px 0;
+}
+
+.booking-heading {
+max-width: 650px;
+margin: 0 auto 35px;
+text-align: center;
+}
+
+.booking-heading span {
+color: #19867f;
+font-size: 0.75rem;
+font-weight: 800;
+letter-spacing: 0.12em;
+}
+
+.booking-heading h1 {
+margin: 12px 0;
+color: #183943;
+font-size: clamp(2rem, 5vw, 3.2rem);
+font-weight: 800;
+}
+
+.booking-heading p {
+color: #71858b;
+font-size: 1.05rem;
+}
+
+.booking-card {
+max-width: 720px;
+margin: 0 auto;
+padding: 38px;
+background-color: #ffffff;
+border: 1px solid #dfeaea;
+border-radius: 20px;
+box-shadow: 0 18px 45px rgba(39, 84, 87, 0.1);
+}
+
+.services-list {
+display: grid;
+gap: 14px;
+}
+
+.service-option {
+display: flex;
+width: 100%;
+align-items: center;
+justify-content: space-between;
+padding: 18px;
+text-align: left;
+background-color: #ffffff;
+border: 2px solid #e3ecec;
+border-radius: 13px;
+transition: 0.2s ease;
+}
+
+.service-option:hover {
+border-color: #8fc4c0;
+}
+
+.service-option.selected {
+background-color: #effaf8;
+border-color: #19867f;
+}
+
+.service-information {
+display: flex;
+flex-direction: column;
+}
+
+.service-information strong {
+color: #294750;
+font-size: 1rem;
+}
+
+.service-information span {
+color: #7d9197;
+font-size: 0.85rem;
+}
+
+.service-price {
+color: #176d69;
+font-weight: 800;
+}
+
+.booking-actions {
+display: flex;
+justify-content: flex-end;
+margin-top: 30px;
+}
+
+.btn-continue {
+padding: 11px 24px;
+color: #ffffff;
+background-color: #19867f;
+border: 1px solid #19867f;
+border-radius: 9px;
+font-weight: 800;
+}
+
+.btn-continue:hover {
+color: #ffffff;
+background-color: #12645f;
+}
+
+.btn-continue:disabled {
+color: #ffffff;
+background-color: #9bbab7;
+border-color: #9bbab7;
+cursor: not-allowed;
+}
+
+@media (max-width: 576px) {
+.booking-page {
+    padding: 45px 0;
+}
+
+.booking-card {
+    padding: 26px 20px;
+}
+
+.service-option {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-continue {
+    width: 100%;
+}
+}
