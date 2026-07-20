@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Topbar } from './shared/topbar/topbar';
 
 import { Navbar } from './components/navbar/navbar';
 
@@ -16,8 +15,3 @@ import { Navbar } from './components/navbar/navbar';
 export class App {
 
 }
-  imports: [RouterOutlet, Topbar],
-  templateUrl: './app.html',
-  styleUrl: './app.css',
-})
-export class App {}
