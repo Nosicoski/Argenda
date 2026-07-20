@@ -1,0 +1,65 @@
+<aside class="arg-sidebar d-flex flex-column gap-4 p-3">
+  <!-- Toggle calendario / lista -->
+  <div class="arg-view-toggle d-flex p-1">
+    <button class="arg-view-btn active flex-fill" type="button" aria-label="Vista calendario">
+      <i class="bi bi-calendar3"></i>
+    </button>
+    <button class="arg-view-btn flex-fill" type="button" aria-label="Vista lista">
+      <i class="bi bi-list-task"></i>
+    </button>
+  </div>
+
+  <!-- Compartir link -->
+  <div class="arg-share-card p-3">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="arg-share-icon"><i class="bi bi-globe2"></i></span>
+      <span class="fw-bold">¡Comparte tu link!</span>
+    </div>
+    <div class="arg-share-link d-flex align-items-center justify-content-between gap-2 px-3">
+      <span class="text-truncate">psicologodejuannosicoski.site…</span>
+      <button class="arg-copy-btn" type="button" aria-label="Copiar link">
+        <i class="bi bi-copy"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Profesional -->
+  <div>
+    <label class="arg-field-label" for="profesional">Profesional</label>
+    <select id="profesional" class="form-select arg-select">
+      <option selected>Juan Nosicoski</option>
+    </select>
+  </div>
+
+  <!-- Estado de la reserva -->
+  <div>
+    <label class="arg-field-label" for="estado">Estado de la reserva</label>
+    <select id="estado" class="form-select arg-select">
+      <option selected>Reservas activas</option>
+    </select>
+  </div>
+
+  <!-- Mini calendarios -->
+  <div class="d-flex flex-column gap-3">
+    @for (month of months; track month.title) {
+      <div class="arg-mini-cal">
+        <div class="arg-mini-cal-title text-center mb-2">{{ month.title }}</div>
+        <div class="arg-mini-cal-grid">
+          @for (weekday of weekdays; track weekday) {
+            <span class="arg-mini-cal-weekday">{{ weekday }}</span>
+          }
+          @for (week of month.weeks; track $index) {
+            @for (cell of week; track $index) {
+              <span
+                class="arg-mini-cal-day"
+                [class.muted]="cell.muted"
+                [class.today]="cell.today"
+                >{{ cell.day }}</span
+              >
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+</aside>
