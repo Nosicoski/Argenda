@@ -1,1 +1,116 @@
-<p>navbar works!</p>
+<header class="main-header">
+<nav class="navbar-container container">
+
+    <a
+    class="brand"
+    routerLink="/"
+    (click)="closeMenu()"
+    >
+    <span class="brand-logo">✓</span>
+
+    <div class="brand-text">
+        <strong>ARGENDA</strong>
+        <small>Tu momento, tu turno</small>
+    </div>
+    </a>
+
+    <button
+    type="button"
+    class="menu-button"
+    aria-label="Abrir menú"
+    [attr.aria-expanded]="menuOpen"
+    (click)="toggleMenu()"
+    >
+    <span></span>
+    <span></span>
+    <span></span>
+    </button>
+
+    <div
+    class="navbar-content"
+    [class.navbar-content-open]="menuOpen"
+    >
+    <div class="navbar-links">
+
+        <a
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+        >
+        Inicio
+        </a>
+
+        <a
+        routerLink="/servicios"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+        >
+        Servicios
+        </a>
+
+        @if (authService.loggedIn()) {
+        <a
+            routerLink="/mis-turnos"
+            routerLinkActive="active-link"
+            (click)="closeMenu()"
+        >
+            Mis turnos
+        </a>
+        }
+
+    </div>
+
+    <div class="navbar-actions">
+
+        @if (!authService.loggedIn()) {
+        <a
+            class="login-link"
+            routerLink="/iniciar-sesion"
+            (click)="closeMenu()"
+        >
+            Iniciar sesión
+        </a>
+
+        <a
+            class="booking-button"
+            routerLink="/registro"
+            (click)="closeMenu()"
+        >
+            Crear cuenta gratis
+        </a>
+        } @else {
+        <div class="user-area">
+            <span class="user-avatar">
+            {{ userInitial }}
+            </span>
+
+            <div class="user-info">
+            <span class="user-name">
+                Hola, {{ userName }}
+            </span>
+
+            <button
+                type="button"
+                class="logout-button"
+                (click)="logout()"
+            >
+                Cerrar sesión
+            </button>
+            </div>
+        </div>
+
+        <a
+            class="booking-button"
+            routerLink="/servicios"
+            (click)="closeMenu()"
+        >
+            Reservar turno
+        </a>
+        }
+
+    </div>
+    </div>
+
+</nav>
+</header>
