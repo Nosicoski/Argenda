@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" version="24.0.0" type="device">
+  <diagram id="argenda-arch" name="Argenda - Arquitectura multi-tenant">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="lbl_tenant" value="LIMITE DEL TENANT = NEGOCIO  (negocio_id + RLS en cada tabla)" style="text;html=1;fontSize=13;fontStyle=1;fontColor=#534AB7;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="600" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_negocio" value="&lt;b&gt;negocio&lt;/b&gt;  &#160;(tenant raiz)&#10;&#10;id  PK (uuid)&#10;nombre&#10;slug  UNIQUE&#10;plan&#10;created_at" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#CECBF6;strokeColor=#534AB7;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="220" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_usuario" value="&lt;b&gt;usuario&lt;/b&gt;  (login: admin/recep/prof)&#10;&#10;id  PK&#10;negocio_id  FK -&gt; negocio&#10;email&#10;password_hash&#10;nombre_completo&#10;telefono&#10;activo&#10;created_at&#10;UNIQUE(negocio_id, email)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#EEEDFE;strokeColor=#7F77DD;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="240" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_sucursal" value="&lt;b&gt;sucursal&lt;/b&gt;  (local + pagina publica)&#10;&#10;id  PK&#10;negocio_id  FK -&gt; negocio&#10;nombre&#10;slug  (url publica)&#10;direccion&#10;timezone&#10;telefono&#10;UNIQUE(negocio_id, slug)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#EEEDFE;strokeColor=#7F77DD;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="500" y="240" width="240" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_cliente" value="&lt;b&gt;cliente&lt;/b&gt;  (RESERVADOR - sin login)&#10;&#10;id  PK&#10;negocio_id  FK -&gt; negocio&#10;nombre&#10;email&#10;telefono&#10;created_at&#10;UNIQUE(negocio_id, email)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#9FE1CB;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="980" y="240" width="240" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_us" value="&lt;b&gt;usuario_sucursal&lt;/b&gt;  (acceso + ROL)&#10;&#10;id  PK&#10;usuario_id  FK -&gt; usuario&#10;sucursal_id  FK -&gt; sucursal&#10;rol  ENUM(ADMIN|RECEPCIONISTA|PROFESIONAL)&#10;UNIQUE(usuario_id, sucursal_id)&#10;&#10;* La AGENDA de un profesional&#10;&#160; cuelga de esta fila (rol=PROFESIONAL)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#EEEDFE;strokeColor=#7F77DD;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="240" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_servicio" value="&lt;b&gt;servicio&lt;/b&gt;&#10;&#10;id  PK&#10;negocio_id  FK -&gt; negocio&#10;sucursal_id  FK -&gt; sucursal&#10;nombre&#10;duracion_min&#10;precio&#10;activo" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#EEEDFE;strokeColor=#7F77DD;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="500" y="500" width="240" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_ps" value="&lt;b&gt;profesional_servicio&lt;/b&gt;  (N:N)&#10;&#10;usuario_sucursal_id  FK&#10;servicio_id  FK&#10;PK(usuario_sucursal_id, servicio_id)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#EEEDFE;strokeColor=#7F77DD;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="500" y="720" width="240" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_reserva" value="&lt;b&gt;reserva&lt;/b&gt;  (la AGENDA es una vista de esto)&#10;&#10;id  PK&#10;negocio_id  FK -&gt; negocio&#10;sucursal_id  FK -&gt; sucursal&#10;profesional_id  FK -&gt; usuario_sucursal&#10;servicio_id  FK -&gt; servicio&#10;cliente_id  FK -&gt; cliente&#10;inicio  (timestamptz)&#10;fin  (timestamptz)&#10;estado  ENUM(PENDIENTE|CONFIRMADA|&#10;&#160; CANCELADA|COMPLETADA|NO_SHOW)&#10;gestion_token  (uuid - magic link)&#10;notas&#10;created_at" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#AFA9EC;strokeColor=#3C3489;fontColor=#26215C;" vertex="1" parent="1">
+          <mxGeometry x="980" y="500" width="270" height="290" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_refresh" value="&lt;b&gt;refresh_token&lt;/b&gt;  (rotacion + revocacion)&#10;&#10;id  PK&#10;usuario_id  FK -&gt; usuario&#10;token_hash&#10;emitido_at&#10;expira_at&#10;revocado  (bool)&#10;reemplazado_por  (id del nuevo)&#10;user_agent / ip" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fillColor=#B5D4F4;strokeColor=#185FA5;fontColor=#042C53;" vertex="1" parent="1">
+          <mxGeometry x="40" y="740" width="240" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_negocio" target="n_sucursal"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_negocio" target="n_usuario"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_negocio" target="n_cliente"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_usuario" target="n_us"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="1 : N  (acceso)" style="endArrow=block;html=1;fontSize=11;dashed=1;strokeColor=#534AB7;" edge="1" parent="1" source="n_sucursal" target="n_us"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_sucursal" target="n_servicio"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_us" target="n_ps"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_servicio" target="n_ps"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" value="1 : N  (agenda del profesional)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_us" target="n_reserva"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_servicio" target="n_reserva"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11" value="1 : N  (crea la reserva)" style="endArrow=block;html=1;fontSize=11;strokeColor=#0F6E56;strokeWidth=2;" edge="1" parent="1" source="n_cliente" target="n_reserva"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" value="1 : N" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1" source="n_sucursal" target="n_reserva"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" value="1 : N" style="endArrow=block;html=1;fontSize=11;strokeColor=#185FA5;" edge="1" parent="1" source="n_usuario" target="n_refresh"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
