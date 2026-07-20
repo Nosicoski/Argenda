@@ -29,6 +29,9 @@ export class AgendaCalendar {
     '18:00',
   ];
 
+  // Alto de cada fila de hora en px (debe coincidir con .arg-hour-row del CSS)
+  protected readonly rowHeight = 36;
+
   // Posición de la línea de hora actual: 12:01 → 3 filas completas + 1 minuto
   protected readonly nowLabel = '12:01';
   protected readonly nowOffsetRows = 3 + 1 / 60;

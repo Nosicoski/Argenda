@@ -21,20 +21,26 @@
 }
 
 .arg-nav-link {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  padding-bottom: 2px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
 }
 
 .arg-nav-link:hover {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .arg-nav-link.active {
   color: #fff;
-  border-bottom: 2px solid #fff;
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.arg-nav-caret {
+  font-size: 0.7rem;
+  margin-left: 0.2rem;
 }
 
 .arg-icon-btn {

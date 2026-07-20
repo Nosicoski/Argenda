@@ -16,7 +16,12 @@
 
   <nav class="d-flex align-items-center gap-4 flex-grow-1">
     @for (item of navItems; track item.label) {
-      <a class="arg-nav-link" [class.active]="item.active" href="#">{{ item.label }}</a>
+      <a class="arg-nav-link" [class.active]="item.active" href="#">
+        {{ item.label }}
+        @if (item.menu) {
+          <i class="bi bi-chevron-down arg-nav-caret"></i>
+        }
+      </a>
     }
   </nav>
 
