@@ -1,10 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ===== ARGENDA — design tokens (brandbook) ===== */
+:root {
+  --arg-primary: #34817e;
+  --arg-primary-dark: #2a6a67;
+  --arg-primary-tint: #e7f1f0;
+  --arg-secondary: #16302f;
+  --arg-tertiary: #f4b740;
+  --arg-neutral: #5c6b70;
+  --arg-surface: #ffffff;
+  --arg-surface-soft: #eaf2f4;
+  --arg-surface-softer: #f3f7f8;
+  --arg-border: #e3e9ea;
+  --arg-text: #22343c;
+
+  --arg-font: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
 html {
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-margin: 0;
-background-color: #ffffff;
-font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: var(--arg-font);
+  color: var(--arg-text);
+  background-color: var(--arg-surface);
+}
+
+/* Bootstrap alignment with the brand palette */
+.btn-arg-primary {
+  --bs-btn-bg: var(--arg-primary);
+  --bs-btn-border-color: var(--arg-primary);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: var(--arg-primary-dark);
+  --bs-btn-hover-border-color: var(--arg-primary-dark);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: var(--arg-secondary);
+  --bs-btn-active-border-color: var(--arg-secondary);
+  --bs-btn-active-color: #fff;
+  font-weight: 600;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: var(--arg-primary);
+  box-shadow: 0 0 0 0.2rem rgba(52, 129, 126, 0.15);
 }

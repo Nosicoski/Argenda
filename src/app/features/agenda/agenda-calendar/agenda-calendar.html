@@ -1,0 +1,54 @@
+<section class="arg-calendar d-flex flex-column h-100">
+  <!-- Toolbar -->
+  <div class="arg-toolbar d-flex align-items-center gap-3 px-4">
+    <button class="arg-tool-icon" type="button" aria-label="Semana anterior">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button class="arg-tool-icon" type="button" aria-label="Semana siguiente">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+
+    <h1 class="arg-week-title mb-0">Lun. 13/07 – Dom. 19/07</h1>
+    <span class="arg-chip">Semana</span>
+
+    <div class="ms-auto d-flex align-items-center gap-3">
+      <span class="arg-updated">Actualizado hace 0 min</span>
+      <button class="arg-tool-icon" type="button" aria-label="Actualizar">
+        <i class="bi bi-arrow-repeat"></i>
+      </button>
+      <button class="arg-tool-icon" type="button" aria-label="Imprimir">
+        <i class="bi bi-printer"></i>
+      </button>
+      <button class="btn btn-arg-primary arg-new-btn" type="button">Nuevo</button>
+    </div>
+  </div>
+
+  <div class="arg-grid-scroll flex-grow-1">
+    <!-- Encabezado de días -->
+    <div class="arg-grid-head d-flex">
+      <div class="arg-time-col arg-head-cell d-flex align-items-center justify-content-center">
+        <i class="bi bi-clock"></i>
+      </div>
+      @for (day of days; track day.label) {
+        <div class="arg-day-col arg-head-cell" [class.today]="day.today">{{ day.label }}</div>
+      }
+    </div>
+
+    <!-- Grilla de horas -->
+    <div class="arg-grid-inner position-relative">
+      @for (hour of hours; track hour) {
+        <div class="arg-hour-row d-flex">
+          <div class="arg-time-col arg-hour-label">{{ hour }}</div>
+          @for (day of days; track day.label) {
+            <div class="arg-day-col arg-hour-cell"></div>
+          }
+        </div>
+      }
+
+      <!-- Línea de hora actual -->
+      <div class="arg-now-line" [style.top.px]="nowOffsetRows * 80">
+        <span class="arg-now-label">{{ nowLabel }}</span>
+      </div>
+    </div>
+  </div>
+</section>

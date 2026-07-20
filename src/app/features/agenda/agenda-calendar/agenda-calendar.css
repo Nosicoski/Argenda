@@ -1,0 +1,147 @@
+:host {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+}
+
+.arg-calendar {
+  min-width: 0;
+  background-color: var(--arg-surface);
+}
+
+/* --- Toolbar --- */
+.arg-toolbar {
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.arg-tool-icon {
+  border: none;
+  background: none;
+  color: var(--arg-secondary);
+  font-size: 1.15rem;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.arg-tool-icon:hover {
+  color: var(--arg-primary);
+}
+
+.arg-week-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--arg-text);
+  white-space: nowrap;
+}
+
+.arg-chip {
+  background-color: var(--arg-surface-soft);
+  color: var(--arg-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+}
+
+.arg-updated {
+  font-size: 0.9rem;
+  color: var(--arg-text);
+  white-space: nowrap;
+}
+
+.arg-new-btn {
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+}
+
+/* --- Estructura de columnas --- */
+.arg-time-col {
+  width: 100px;
+  min-width: 100px;
+}
+
+.arg-day-col {
+  flex: 1 1 0;
+  min-width: 128px;
+  border-left: 1px solid var(--arg-border);
+}
+
+/* --- Contenedor con scroll --- */
+.arg-grid-scroll {
+  overflow: auto;
+  min-height: 0;
+}
+
+/* --- Encabezado de días --- */
+.arg-grid-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-width: fit-content;
+  background-color: var(--arg-surface-soft);
+  border-top: 1px solid var(--arg-border);
+  border-bottom: 1px solid var(--arg-border);
+}
+
+.arg-head-cell {
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--arg-text);
+  white-space: nowrap;
+}
+
+.arg-head-cell.today {
+  color: var(--arg-primary);
+  font-weight: 700;
+}
+
+.arg-grid-head .arg-time-col {
+  color: var(--arg-secondary);
+  font-size: 1.05rem;
+}
+
+/* --- Cuerpo de la grilla --- */
+.arg-grid-inner {
+  min-width: fit-content;
+}
+
+.arg-hour-row {
+  height: 80px;
+}
+
+.arg-hour-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--arg-text);
+  text-align: center;
+  padding-top: 0.35rem;
+}
+
+.arg-hour-cell {
+  border-bottom: 1px solid var(--arg-border);
+}
+
+/* --- Línea de hora actual --- */
+.arg-now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px solid var(--arg-tertiary);
+  pointer-events: none;
+}
+
+.arg-now-label {
+  position: absolute;
+  left: 8px;
+  top: -11px;
+  background-color: var(--arg-tertiary);
+  color: var(--arg-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}

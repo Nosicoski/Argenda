@@ -1,0 +1,82 @@
+.arg-banner {
+  background-color: var(--arg-secondary);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 1rem;
+}
+
+.arg-navbar {
+  background-color: var(--arg-secondary);
+  height: 72px;
+}
+
+.arg-logo {
+  width: 44px;
+  height: 44px;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.arg-nav-link {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding-bottom: 2px;
+}
+
+.arg-nav-link:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.arg-nav-link.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.arg-icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.15rem;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.arg-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: #d9534f;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  min-width: 17px;
+  height: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arg-reservas-btn {
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+}
+
+.arg-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9eef0;
+  color: var(--arg-secondary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

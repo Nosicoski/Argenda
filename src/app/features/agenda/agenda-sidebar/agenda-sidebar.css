@@ -1,0 +1,127 @@
+:host {
+  display: contents;
+}
+
+.arg-sidebar {
+  width: 300px;
+  min-width: 300px;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
+}
+
+/* --- Toggle de vista --- */
+.arg-view-toggle {
+  background-color: var(--arg-surface-soft);
+  border-radius: 10px;
+  gap: 4px;
+}
+
+.arg-view-btn {
+  border: none;
+  background: transparent;
+  color: var(--arg-neutral);
+  font-size: 1.1rem;
+  padding: 0.45rem 0;
+  border-radius: 8px;
+}
+
+.arg-view-btn.active {
+  background-color: #fff;
+  color: var(--arg-secondary);
+  box-shadow: 0 1px 3px rgba(22, 48, 47, 0.12);
+}
+
+/* --- Card de compartir link --- */
+.arg-share-card {
+  background-color: var(--arg-primary-tint);
+  border: 1px solid rgba(52, 129, 126, 0.35);
+  border-radius: 12px;
+  color: var(--arg-secondary);
+}
+
+.arg-share-icon {
+  color: var(--arg-primary);
+  font-size: 1.15rem;
+  display: inline-flex;
+}
+
+.arg-share-link {
+  background-color: #fff;
+  border: 1px solid var(--arg-border);
+  border-radius: 8px;
+  height: 44px;
+  font-size: 0.85rem;
+  color: var(--arg-neutral);
+}
+
+.arg-copy-btn {
+  border: none;
+  background: none;
+  color: var(--arg-neutral);
+  font-size: 1rem;
+  padding: 0;
+}
+
+.arg-copy-btn:hover {
+  color: var(--arg-primary);
+}
+
+/* --- Campos --- */
+.arg-field-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.arg-select {
+  border-radius: 10px;
+  border-color: var(--arg-border);
+  font-weight: 600;
+  color: var(--arg-secondary);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+/* --- Mini calendarios --- */
+.arg-mini-cal-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--arg-text);
+}
+
+.arg-mini-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 6px;
+  text-align: center;
+}
+
+.arg-mini-cal-weekday {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--arg-neutral);
+}
+
+.arg-mini-cal-day {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--arg-text);
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 50%;
+  justify-self: center;
+  cursor: default;
+}
+
+.arg-mini-cal-day.muted {
+  color: #b6c0c3;
+}
+
+.arg-mini-cal-day.today {
+  background-color: var(--arg-primary);
+  color: #fff;
+  font-weight: 700;
+}
