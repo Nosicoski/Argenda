@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 })
 export class Topbar {
   protected readonly navItems = [
-    { label: 'Agenda', active: true },
-    { label: 'Ventas', active: false },
-    { label: 'Pacientes', active: false },
-    { label: 'Reportes', active: false },
-    { label: 'Administración', active: false },
+    { label: 'Agenda', active: true, menu: false },
+    { label: 'Ventas', active: false, menu: true },
+    { label: 'Pacientes', active: false, menu: true },
+    { label: 'Reportes', active: false, menu: true },
+    { label: 'Administración', active: false, menu: true },
   ];
 }
