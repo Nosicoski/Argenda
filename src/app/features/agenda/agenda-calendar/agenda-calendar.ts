@@ -1,5 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NuevaReservaModal } from '../nueva-reserva-modal/nueva-reserva-modal';
+import { AppointmentService } from '../../../services/appointment.service';
 
 @Component({
   selector: 'app-agenda-calendar',
@@ -8,54 +9,33 @@ import { NuevaReservaModal } from '../nueva-reserva-modal/nueva-reserva-modal';
   styleUrl: './agenda-calendar.css',
 })
 export class AgendaCalendar {
+  private readonly agenda = inject(AppointmentService);
+
   protected readonly days = [
-    { label: 'Lunes 20/07', today: true, off: false },
-    { label: 'Martes 21/07', today: false, off: false },
-    { label: 'Miércoles 22/07', today: false, off: false },
-    { label: 'Jueves 23/07', today: false, off: false },
-    { label: 'Viernes 24/07', today: false, off: false },
-    { label: 'Sábado 25/07', today: false, off: false },
-    { label: 'Domingo 26/07', today: false, off: true },
+    { label: 'Lunes 20/07', fecha: '2026-07-20', today: true, off: false },
+    { label: 'Martes 21/07', fecha: '2026-07-21', today: false, off: false },
+    { label: 'Miércoles 22/07', fecha: '2026-07-22', today: false, off: false },
+    { label: 'Jueves 23/07', fecha: '2026-07-23', today: false, off: false },
+    { label: 'Viernes 24/07', fecha: '2026-07-24', today: false, off: false },
+    { label: 'Sábado 25/07', fecha: '2026-07-25', today: false, off: false },
+    { label: 'Domingo 26/07', fecha: '2026-07-26', today: false, off: true },
   ];
 
-  protected readonly hours = [
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-  ];
+  protected readonly hours = this.agenda.horarios;
 
   // Alto de cada fila de hora en px (debe coincidir con .arg-hour-row del CSS)
   protected readonly rowHeight = 36;
 
-  // Reservas de ejemplo (mock, solo diseño)
-  protected readonly reservas = [
-    {
-      day: 0, // Lunes 20/07
-      hora: '10:00',
-      cliente: 'María González',
-      servicio: 'Corte y peinado',
-    },
-    {
-      day: 2, // Miércoles 22/07
-      hora: '15:00',
-      cliente: 'Lucas Fernández',
-      servicio: 'Coloración',
-    },
-  ];
-
+  // Reservas compartidas con el flujo de reserva (mock, solo diseño)
   protected reservaEn(day: number, hour: number) {
     return (
-      this.reservas.find(
-        (reserva) => reserva.day === day && reserva.hora === this.hours[hour],
-      ) ?? null
+      this.agenda
+        .reservas()
+        .find(
+          (reserva) =>
+            reserva.fecha === this.days[day].fecha &&
+            reserva.hora === this.hours[hour],
+        ) ?? null
     );
   }
 
