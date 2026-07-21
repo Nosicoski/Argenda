@@ -1,0 +1,208 @@
+<div class="arg-modal-overlay" (click)="closed.emit()">
+  <div
+    class="arg-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="nuevaReservaTitle"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Encabezado -->
+    <header class="d-flex align-items-center justify-content-between mb-4">
+      <h2 id="nuevaReservaTitle" class="arg-modal-title mb-0">Nueva Reserva</h2>
+
+      <div class="d-flex align-items-center gap-3">
+        <button class="arg-status-pill" type="button">
+          <span class="arg-status-dot"></span>
+          Reservado
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <button class="arg-modal-close" type="button" aria-label="Cerrar" (click)="closed.emit()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fecha / Hora / Repetir -->
+    <div class="d-flex align-items-end gap-3 mb-3">
+      <div class="arg-field arg-field-fecha">
+        <label class="arg-label" for="nrFecha">Fecha</label>
+        <div class="arg-input-icon">
+          <i class="bi bi-calendar3"></i>
+          <select id="nrFecha" class="form-select arg-select arg-select-icon">
+            <option>{{ fecha() }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="arg-field arg-field-hora">
+        <label class="arg-label" for="nrHora">Hora</label>
+        <div class="arg-input-icon icon-end">
+          <input id="nrHora" class="form-control arg-control" [value]="hora()" readonly />
+          <i class="bi bi-clock"></i>
+        </div>
+      </div>
+
+      <div class="arg-repeat-wrap position-relative">
+        <button class="arg-repeat-link" type="button" (click)="repeatOpen.set(!repeatOpen())">
+          Repetir
+        </button>
+
+        @if (repeatOpen()) {
+          <div class="arg-repeat-pop">
+            <div class="d-flex gap-3 mb-3">
+              <div class="arg-field flex-grow-1">
+                <label class="arg-label" for="nrRepetir">Repetir</label>
+                <select id="nrRepetir" class="form-select arg-select">
+                  <option>Semanal</option>
+                  <option>Diaria</option>
+                  <option>Mensual</option>
+                </select>
+              </div>
+              <div class="arg-field">
+                <label class="arg-label" for="nrCada">Cada</label>
+                <div class="d-flex align-items-center gap-2">
+                  <input id="nrCada" class="form-control arg-control arg-num" value="1" />
+                  <span class="arg-suffix">semana(s)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+              @for (d of repeatDays; track d.label) {
+                <button
+                  type="button"
+                  class="arg-day-pill"
+                  [class.active]="d.active"
+                  (click)="d.active = !d.active"
+                >
+                  {{ d.label }}
+                </button>
+              }
+            </div>
+
+            <label class="arg-label" for="nrFinaliza">Finaliza</label>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <select id="nrFinaliza" class="form-select arg-select arg-finaliza">
+                <option>Después de</option>
+                <option>Nunca</option>
+                <option>El día</option>
+              </select>
+              <input class="form-control arg-control arg-num" value="1" aria-label="Cantidad de repeticiones" />
+              <span class="arg-suffix">repeticiones</span>
+            </div>
+            <p class="arg-hint mb-3">Incluye la reserva original</p>
+
+            <div class="d-flex justify-content-between">
+              <button class="arg-btn-outline arg-btn-pill" type="button" (click)="repeatOpen.set(false)">
+                Cancelar
+              </button>
+              <button class="btn btn-arg-primary arg-btn-pill" type="button" (click)="repeatOpen.set(false)">
+                Aceptar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Paciente -->
+    <div class="arg-field mb-3">
+      <label class="arg-label" for="nrPaciente">Paciente</label>
+      <div class="d-flex align-items-center gap-2">
+        <select
+          id="nrPaciente"
+          class="form-select arg-select flex-grow-1"
+          [class.is-placeholder]="!paciente"
+          [(ngModel)]="paciente"
+        >
+          <option value="">Busca por nombre, apellido, DNI, email</option>
+          <option value="Carla Gómez">Carla Gómez</option>
+          <option value="Martín Suárez">Martín Suárez</option>
+          <option value="Lucía Fernández">Lucía Fernández</option>
+        </select>
+        <button class="arg-btn-outline arg-new-patient" type="button">
+          <i class="bi bi-plus-lg"></i> Nuevo paciente
+        </button>
+      </div>
+    </div>
+
+    <!-- Profesional -->
+    <div class="arg-field mb-3">
+      <label class="arg-label" for="nrProfesional">Profesional</label>
+      <div class="d-flex align-items-center gap-2">
+        <select id="nrProfesional" class="form-select arg-select flex-grow-1" [(ngModel)]="profesional">
+          <option>Juan Nosicoski</option>
+        </select>
+        <button class="arg-lock-btn" type="button" aria-label="Fijar profesional">
+          <i class="bi bi-unlock"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Servicios -->
+    <div class="arg-field mb-4">
+      <label class="arg-label" for="nrServicio">Servicios</label>
+      <select
+        id="nrServicio"
+        class="form-select arg-select"
+        [class.is-placeholder]="!servicio"
+        [(ngModel)]="servicio"
+      >
+        <option value="">Seleccionar servicio</option>
+        <option value="Sesión individual">Sesión individual</option>
+        <option value="Primera consulta">Primera consulta</option>
+        <option value="Terapia de pareja">Terapia de pareja</option>
+      </select>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="arg-info-box mb-4">
+      <button class="arg-info-head" type="button" (click)="infoOpen.set(!infoOpen())">
+        Información adicional
+        <i class="bi bi-chevron-down" [class.rotate]="infoOpen()"></i>
+      </button>
+
+      @if (infoOpen()) {
+        <div class="arg-info-body">
+          <div class="arg-field mb-3">
+            <label class="arg-label" for="nrPrecio">Precio</label>
+            <div class="arg-input-icon">
+              <span class="arg-currency">$</span>
+              <input
+                id="nrPrecio"
+                class="form-control arg-control arg-control-currency"
+                type="number"
+                placeholder="0"
+                [(ngModel)]="precio"
+              />
+            </div>
+          </div>
+
+          <div class="arg-field">
+            <label class="arg-label" for="nrNotas">Notas compartidas con el paciente</label>
+            <textarea
+              id="nrNotas"
+              class="form-control arg-control"
+              rows="3"
+              placeholder="El paciente verá estas notas en el recordatorio de su turno"
+              [(ngModel)]="notas"
+            ></textarea>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Acciones -->
+    <footer class="d-flex justify-content-end gap-2">
+      <button class="arg-btn-outline arg-btn-pill" type="button" (click)="closed.emit()">
+        Cancelar
+      </button>
+      <button class="arg-btn-soft arg-btn-pill" type="button" [disabled]="!formComplete">
+        Agregar otra reserva
+      </button>
+      <button class="btn btn-arg-primary arg-btn-pill" type="button" [disabled]="!formComplete">
+        Guardar reserva
+      </button>
+    </footer>
+  </div>
+</div>

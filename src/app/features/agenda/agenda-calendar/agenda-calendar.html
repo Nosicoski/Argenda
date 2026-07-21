@@ -1,6 +1,8 @@
 <section class="arg-calendar d-flex flex-column h-100">
   <!-- Toolbar -->
-  <div class="arg-toolbar d-flex align-items-center gap-3 px-4">
+  <div class="arg-toolbar d-flex align-items-center gap-2 px-4">
+    <button class="arg-chip" type="button">Semana</button>
+
     <button class="arg-tool-icon" type="button" aria-label="Semana anterior">
       <i class="bi bi-chevron-left"></i>
     </button>
@@ -8,26 +10,58 @@
       <i class="bi bi-chevron-right"></i>
     </button>
 
-    <h1 class="arg-week-title mb-0">Lun. 13/07 – Dom. 19/07</h1>
-    <span class="arg-chip">Semana</span>
+    <div class="arg-week-block ms-1">
+      <h1 class="arg-week-title mb-0">Lun. 20/07 – Dom. 26/07</h1>
+      <span class="arg-week-sub">
+        <i class="bi bi-house-door"></i>
+        Juan Nosicoski
+      </span>
+    </div>
 
-    <div class="ms-auto d-flex align-items-center gap-3">
-      <span class="arg-updated">Actualizado hace 0 min</span>
-      <button class="arg-tool-icon" type="button" aria-label="Actualizar">
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <i class="bi bi-info-circle arg-info-icon" aria-hidden="true"></i>
+      <span class="arg-updated me-1">Actualizado hace 0 min</span>
+
+      <button class="arg-circle-btn" type="button" aria-label="Actualizar">
         <i class="bi bi-arrow-repeat"></i>
       </button>
-      <button class="arg-tool-icon" type="button" aria-label="Imprimir">
+      <button class="arg-circle-btn accent" type="button" aria-label="Sincronizar calendario">
+        <i class="bi bi-calendar2-week"></i>
+      </button>
+      <button class="arg-circle-btn soft" type="button" aria-label="Profesionales">
+        <i class="bi bi-person"></i>
+      </button>
+      <button class="arg-circle-btn" type="button" aria-label="Imprimir">
         <i class="bi bi-printer"></i>
       </button>
-      <button class="btn btn-arg-primary arg-new-btn" type="button">Nuevo</button>
+      <button class="arg-circle-btn" type="button" aria-label="Pantalla completa">
+        <i class="bi bi-arrows-angle-expand"></i>
+      </button>
+
+      <button class="btn btn-arg-primary arg-new-btn" type="button">
+        Nuevo <i class="bi bi-chevron-down"></i>
+      </button>
     </div>
+  </div>
+
+  <!-- Filtro de profesional -->
+  <div class="arg-filter-row px-4">
+    <span class="arg-pro-chip d-inline-flex align-items-center gap-2">
+      <span class="arg-pro-avatar">JN</span>
+      Juan Nosicoski
+      <button class="arg-pro-close" type="button" aria-label="Quitar filtro">
+        <i class="bi bi-x"></i>
+      </button>
+    </span>
   </div>
 
   <div class="arg-grid-scroll flex-grow-1">
     <!-- Encabezado de días -->
     <div class="arg-grid-head d-flex">
       <div class="arg-time-col arg-head-cell d-flex align-items-center justify-content-center">
-        <i class="bi bi-clock"></i>
+        <button class="arg-clock-btn" type="button" aria-label="Configurar horarios">
+          <i class="bi bi-clock"></i>
+        </button>
       </div>
       @for (day of days; track day.label) {
         <div class="arg-day-col arg-head-cell" [class.today]="day.today">{{ day.label }}</div>
@@ -36,11 +70,47 @@
 
     <!-- Grilla de horas -->
     <div class="arg-grid-inner position-relative">
-      @for (hour of hours; track hour) {
+      @for (hour of hours; track hour; let hi = $index) {
         <div class="arg-hour-row d-flex">
           <div class="arg-time-col arg-hour-label">{{ hour }}</div>
-          @for (day of days; track day.label) {
-            <div class="arg-day-col arg-hour-cell"></div>
+          @for (day of days; track day.label; let di = $index) {
+            <div
+              class="arg-day-col arg-hour-cell"
+              [class.off]="day.off"
+              (click)="selectCell(hi, di)"
+            >
+              @if (reservaEn(di, hi); as reserva) {
+                <div class="arg-reserva" (click)="$event.stopPropagation()">
+                  <span class="arg-reserva-hora">{{ reserva.hora }}</span>
+                  <span class="arg-reserva-cliente">{{ reserva.cliente }}</span>
+                  <span class="arg-reserva-servicio">{{ reserva.servicio }}</span>
+                </div>
+              }
+              @if (selected()?.day === di && selected()?.hour === hi) {
+                <div class="arg-add-chip" (click)="$event.stopPropagation(); menuOpen.set(true)">
+                  <span class="arg-add-text"><i class="bi bi-plus-lg"></i> Agregar</span>
+                  <button
+                    class="arg-add-close"
+                    type="button"
+                    aria-label="Cancelar"
+                    (click)="$event.stopPropagation(); clearSelection()"
+                  >
+                    <i class="bi bi-x"></i>
+                  </button>
+                </div>
+
+                @if (menuOpen()) {
+                  <div class="arg-add-menu" (click)="$event.stopPropagation()">
+                    <button type="button" (click)="openReserva()">
+                      <i class="bi bi-calendar2-plus"></i> Reserva
+                    </button>
+                    <button type="button" (click)="clearSelection()">
+                      <i class="bi bi-slash-circle"></i> Bloquear horario
+                    </button>
+                  </div>
+                }
+              }
+            </div>
           }
         </div>
       }
@@ -51,4 +121,13 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Nueva Reserva (solo diseño) -->
+  @if (reservaOpen()) {
+    <app-nueva-reserva-modal
+      [fecha]="selectedFecha()"
+      [hora]="selectedHora()"
+      (closed)="closeReserva()"
+    />
+  }
 </section>

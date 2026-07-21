@@ -12,7 +12,7 @@
 
 /* --- Toolbar --- */
 .arg-toolbar {
-  height: 56px;
+  padding-top: 0.7rem;
   flex-shrink: 0;
 }
 
@@ -20,7 +20,7 @@
   border: none;
   background: none;
   color: var(--arg-secondary);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   padding: 0.25rem;
   line-height: 1;
 }
@@ -29,20 +29,44 @@
   color: var(--arg-primary);
 }
 
+.arg-chip {
+  background-color: var(--arg-surface);
+  border: 1px solid var(--arg-border);
+  color: var(--arg-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.38rem 0.95rem;
+  box-shadow: 0 1px 2px rgba(22, 48, 47, 0.05);
+}
+
+.arg-chip:hover {
+  background-color: var(--arg-surface-softer);
+}
+
+.arg-week-block {
+  line-height: 1.25;
+}
+
 .arg-week-title {
-  font-size: 1.1rem;
+  font-size: 0.98rem;
   font-weight: 800;
   color: var(--arg-text);
   white-space: nowrap;
 }
 
-.arg-chip {
-  background-color: var(--arg-surface-soft);
-  color: var(--arg-secondary);
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 999px;
-  padding: 0.3rem 0.85rem;
+.arg-week-sub {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--arg-neutral);
+  white-space: nowrap;
+}
+
+.arg-info-icon {
+  color: var(--arg-neutral);
+  font-size: 0.95rem;
 }
 
 .arg-updated {
@@ -51,9 +75,89 @@
   white-space: nowrap;
 }
 
+.arg-circle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
+  color: var(--arg-secondary);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.arg-circle-btn:hover {
+  background-color: var(--arg-surface-softer);
+}
+
+.arg-circle-btn.accent {
+  background-color: var(--arg-primary-tint);
+  border-color: transparent;
+  color: var(--arg-primary);
+}
+
+.arg-circle-btn.soft {
+  background-color: var(--arg-surface-soft);
+  border-color: transparent;
+}
+
 .arg-new-btn {
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.45rem 1.2rem;
+}
+
+.arg-new-btn .bi {
+  font-size: 0.7rem;
+}
+
+/* --- Filtro de profesional --- */
+.arg-filter-row {
+  padding-top: 0.6rem;
+  padding-bottom: 0.7rem;
+  flex-shrink: 0;
+}
+
+.arg-pro-chip {
+  border: 1px solid var(--arg-border);
+  border-radius: 999px;
+  background-color: var(--arg-surface);
+  padding: 0.28rem 0.6rem 0.28rem 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--arg-text);
+  box-shadow: 0 1px 2px rgba(22, 48, 47, 0.05);
+}
+
+.arg-pro-avatar {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--arg-surface-soft);
+  color: var(--arg-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.arg-pro-close {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--arg-neutral);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.arg-pro-close:hover {
+  color: var(--arg-secondary);
 }
 
 /* --- Estructura de columnas --- */
@@ -80,8 +184,7 @@
   top: 0;
   z-index: 2;
   min-width: fit-content;
-  background-color: var(--arg-surface-soft);
-  border-top: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
   border-bottom: 1px solid var(--arg-border);
 }
 
@@ -89,19 +192,27 @@
   padding: 0.5rem;
   text-align: center;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--arg-text);
   white-space: nowrap;
 }
 
 .arg-head-cell.today {
   color: var(--arg-primary);
-  font-weight: 700;
 }
 
-.arg-grid-head .arg-time-col {
+.arg-clock-btn {
+  border: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
+  border-radius: 10px;
+  padding: 0.15rem 0.55rem;
   color: var(--arg-secondary);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.arg-clock-btn:hover {
+  background-color: var(--arg-surface-softer);
 }
 
 /* --- Cuerpo de la grilla --- */
@@ -122,7 +233,90 @@
 }
 
 .arg-hour-cell {
+  position: relative;
   border-bottom: 1px solid var(--arg-border);
+  cursor: pointer;
+}
+
+.arg-hour-cell.off {
+  background-color: #d7dcdf;
+  border-bottom-color: #c9cfd3;
+  cursor: default;
+}
+
+/* --- Chip "+ Agregar" al seleccionar una celda --- */
+.arg-add-chip {
+  position: absolute;
+  inset: 2px 3px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  background-color: var(--arg-primary-tint);
+  border: 1px dashed var(--arg-primary);
+  border-radius: 6px;
+  color: var(--arg-primary);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.arg-add-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arg-add-text .bi {
+  font-size: 0.7rem;
+}
+
+.arg-add-close {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--arg-primary);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.arg-add-close:hover {
+  color: var(--arg-primary-dark);
+}
+
+.arg-add-menu {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 3px;
+  z-index: 5;
+  min-width: 180px;
+  background-color: var(--arg-surface);
+  border-radius: 10px;
+  box-shadow: 0 12px 34px rgba(22, 48, 47, 0.2);
+  padding: 0.3rem;
+}
+
+.arg-add-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0.5rem 0.65rem;
+  border-radius: 7px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--arg-text);
+  text-align: left;
+}
+
+.arg-add-menu button:hover {
+  background-color: var(--arg-surface-softer);
+}
+
+.arg-add-menu .bi {
+  color: var(--arg-secondary);
 }
 
 /* --- Línea de hora actual --- */
@@ -144,4 +338,43 @@
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 4px;
+}
+
+/* --- Reservas (mock) --- */
+.arg-reserva {
+  position: absolute;
+  inset: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background-color: var(--arg-primary-tint);
+  border-left: 3px solid var(--arg-primary);
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.arg-reserva-hora {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--arg-primary-dark);
+  flex-shrink: 0;
+}
+
+.arg-reserva-cliente {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--arg-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arg-reserva-servicio {
+  font-size: 11px;
+  color: var(--arg-neutral);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
