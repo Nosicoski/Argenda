@@ -1,5 +1,6 @@
 <main class="booking-page">
 <div class="container">
+
     <div class="booking-heading">
     <span>RESERVAR TURNO</span>
 
@@ -61,13 +62,27 @@
     </div>
 
     <section class="booking-card">
+
+    @if (bookingError) {
+        <div
+        class="booking-error"
+        role="alert"
+        >
+        <span class="booking-error-icon">!</span>
+
+        <p>{{ bookingError }}</p>
+        </div>
+    }
+
     @if (currentStep === 1) {
         <div class="services-list">
+
         @for (service of services; track service.id) {
             <button
             type="button"
             class="service-option"
             [class.selected]="selectedServiceId === service.id"
+            [attr.aria-pressed]="selectedServiceId === service.id"
             (click)="selectService(service.id)"
             >
             <div class="service-information">
@@ -76,10 +91,11 @@
             </div>
 
             <span class="service-price">
-                $ {{ service.price }}
+                {{ formatPrice(service.price) }}
             </span>
             </button>
         }
+
         </div>
 
         <div class="booking-actions right">
@@ -96,6 +112,7 @@
 
     @if (currentStep === 2) {
         <div class="date-container">
+
         <label for="appointmentDate">
             Elegí una fecha
         </label>
@@ -105,25 +122,79 @@
             type="date"
             name="appointmentDate"
             class="form-control"
+            [class.invalid-control]="dateTouched && dateIsInvalid"
+            [min]="minDate"
             [(ngModel)]="selectedDate"
+            (change)="onDateChange()"
+            (blur)="dateTouched = true"
         >
+
+        @if (dateTouched && !selectedDate) {
+            <small class="field-error">
+            Seleccioná una fecha.
+            </small>
+        }
+
+        @if (
+            dateTouched &&
+            selectedDate &&
+            dateIsInvalid
+        ) {
+            <small class="field-error">
+            La fecha no puede ser anterior al día de hoy.
+            </small>
+        }
+
         </div>
 
         <div class="time-container">
+
         <label>Horarios disponibles</label>
 
-        <div class="times-grid">
+        @if (!selectedDate) {
+            <p class="field-helper">
+            Primero seleccioná una fecha.
+            </p>
+        }
+
+        <div
+            class="times-grid"
+            [class.times-disabled]="!selectedDate"
+        >
             @for (time of availableTimes; track time) {
-            <button
-                type="button"
-                class="time-option"
-                [class.selected]="selectedTime === time"
-                (click)="selectTime(time)"
-            >
-                {{ time }}
-            </button>
+<button
+type="button"
+class="time-option"
+[class.selected]="selectedTime === time"
+[class.unavailable]="isTimeUnavailable(time)"
+[disabled]="!selectedDate || isTimeUnavailable(time)"
+[attr.aria-pressed]="selectedTime === time"
+[attr.aria-label]="
+    isTimeUnavailable(time)
+    ? time + ' no disponible'
+    : time + ' disponible'
+"
+(click)="selectTime(time)"
+>
+<span>{{ time }}</span>
+
+@if (isTimeUnavailable(time)) {
+    <small>Ocupado</small>
+}
+</button>
             }
         </div>
+
+        @if (
+            timeTouched &&
+            selectedDate &&
+            !selectedTime
+        ) {
+            <small class="field-error time-error">
+            Seleccioná uno de los horarios disponibles.
+            </small>
+        }
+
         </div>
 
         <div class="booking-actions">
@@ -138,7 +209,6 @@
         <button
             type="button"
             class="btn btn-continue"
-            [disabled]="!selectedDate || !selectedTime"
             (click)="nextStep()"
         >
             Continuar
@@ -148,13 +218,15 @@
 
     @if (currentStep === 3 && !bookingConfirmed) {
         <div>
+
         <h2>Resumen del turno</h2>
 
         <p class="step-description">
-            Revisá que todos los datos sean correctos.
+            Revisá que todos los datos sean correctos antes de confirmar.
         </p>
 
         <div class="booking-summary">
+
             <div class="summary-row">
             <span>Servicio</span>
             <strong>{{ selectedService?.name }}</strong>
@@ -167,7 +239,7 @@
 
             <div class="summary-row">
             <span>Fecha</span>
-            <strong>{{ selectedDate }}</strong>
+            <strong>{{ formatDate(selectedDate) }}</strong>
             </div>
 
             <div class="summary-row">
@@ -177,14 +249,20 @@
 
             <div class="summary-row total">
             <span>Total</span>
-            <strong>$ {{ selectedService?.price }}</strong>
+
+            <strong>
+                {{ formatPrice(selectedService?.price) }}
+            </strong>
             </div>
+
         </div>
 
         <div class="booking-actions">
+
             <button
             type="button"
             class="btn btn-back"
+            [disabled]="isSaving"
             (click)="previousStep()"
             >
             Volver
@@ -193,40 +271,88 @@
             <button
             type="button"
             class="btn btn-confirm"
+            [disabled]="isSaving"
             (click)="confirmBooking()"
             >
-            Confirmar turno
+            @if (isSaving) {
+                Confirmando...
+            } @else {
+                Confirmar turno
+            }
             </button>
+
         </div>
+
         </div>
     }
 
     @if (bookingConfirmed) {
         <div class="confirmation-message">
-        <div class="confirmation-icon">✓</div>
 
-        <h2>¡Turno confirmado!</h2>
+        <div class="confirmation-icon">
+            ✓
+        </div>
+
+        <span class="confirmation-label">
+            RESERVA CONFIRMADA
+        </span>
+
+        <h2>¡Tu turno fue reservado!</h2>
 
         <p>
-            Tu turno fue guardado correctamente.
+            Guardamos correctamente tu reserva. Podés verla y
+            administrarla desde la sección “Mis turnos”.
         </p>
 
         <div class="confirmation-details">
-            <strong>{{ selectedService?.name }}</strong>
 
-            <span>
-            {{ selectedDate }} a las {{ selectedTime }}
-            </span>
+            <strong>
+            {{ selectedService?.name }}
+            </strong>
+
+            <div class="confirmation-detail-row">
+            <span>Fecha</span>
+            <b>{{ formatDate(selectedDate) }}</b>
+            </div>
+
+            <div class="confirmation-detail-row">
+            <span>Horario</span>
+            <b>{{ selectedTime }}</b>
+            </div>
+
+            <div class="confirmation-detail-row">
+            <span>Duración</span>
+            <b>{{ selectedService?.duration }}</b>
+            </div>
+
+            <div class="confirmation-detail-row total">
+            <span>Total</span>
+            <b>{{ formatPrice(selectedService?.price) }}</b>
+            </div>
+
         </div>
 
-        <a
+        <div class="confirmation-actions">
+
+            <a
             routerLink="/mis-turnos"
             class="btn btn-confirm"
-        >
+            >
             Ver mis turnos
-        </a>
+            </a>
+
+            <a
+            routerLink="/servicios"
+            class="btn btn-back"
+            >
+            Seguir explorando
+            </a>
+
+        </div>
+
         </div>
     }
+
     </section>
 </div>
 </main>

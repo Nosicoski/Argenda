@@ -41,9 +41,11 @@
 
                 <h2>{{ appointment.service }}</h2>
 
-                <p>
-                {{ appointment.date }} a las {{ appointment.time }}
-                </p>
+<p>
+    {{ formatDate(appointment.date) }}
+    a las
+    {{ appointment.time }}
+</p>
             </div>
             </div>
 
@@ -55,7 +57,7 @@
 
             <div>
                 <span>Precio</span>
-                <strong>$ {{ appointment.price }}</strong>
+                <strong>{{ formatPrice(appointment.price) }}</strong>
             </div>
             </div>
 
