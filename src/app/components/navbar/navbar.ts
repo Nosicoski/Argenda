@@ -17,12 +17,18 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './navbar.css'
 })
 export class Navbar {
+
   menuOpen = false;
+  profileMenuOpen = false;
 
   constructor(
     public authService: AuthService,
     private router: Router
   ) {}
+
+  // =========================
+  // Menú principal
+  // =========================
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
@@ -32,22 +38,42 @@ export class Navbar {
     this.menuOpen = false;
   }
 
+  // =========================
+  // Menú del usuario
+  // =========================
+
+  toggleProfileMenu(): void {
+    this.profileMenuOpen = !this.profileMenuOpen;
+  }
+
+  closeProfileMenu(): void {
+    this.profileMenuOpen = false;
+    this.menuOpen = false;
+  }
+
+  // =========================
+  // Cerrar sesión
+  // =========================
+
   logout(): void {
     this.authService.logout();
-    this.closeMenu();
+
+    this.profileMenuOpen = false;
+    this.menuOpen = false;
+
     this.router.navigate(['/']);
   }
 
-get userName(): string {
-  const fullName =
-    this.authService.currentUser()?.name ?? 'Usuario';
+  // =========================
+  // Nombre del usuario
+  // =========================
 
-  const firstName = fullName.trim().split(' ')[0];
+  get userName(): string {
+    const fullName =
+      this.authService.currentUser()?.name ?? 'Usuario';
 
-  return firstName.charAt(0).toUpperCase() + firstName.slice(1);
-}
+    const firstName = fullName.trim().split(' ')[0];
 
-  get userInitial(): string {
-    return this.userName.charAt(0).toUpperCase();
+    return firstName.charAt(0).toUpperCase() + firstName.slice(1);
   }
 }

@@ -64,6 +64,7 @@
     <div class="navbar-actions">
 
         @if (!authService.loggedIn()) {
+
         <a
             class="login-link"
             routerLink="/iniciar-sesion"
@@ -79,25 +80,41 @@
         >
             Crear cuenta gratis
         </a>
-        } @else {
-        <div class="user-area">
-            <span class="user-avatar">
-            {{ userInitial }}
-            </span>
 
-            <div class="user-info">
-            <span class="user-name">
-                Hola, {{ userName }}
-            </span>
+        } @else {
+
+        <div class="profile-menu">
 
             <button
-                type="button"
-                class="logout-button"
-                (click)="logout()"
+            type="button"
+            class="profile-button"
+            [attr.aria-expanded]="profileMenuOpen"
+            (click)="toggleProfileMenu()"
             >
-                Cerrar sesión
+            <span>Hola, {{ userName }}</span>
+
+            <span
+                class="arrow"
+                [class.arrow-open]="profileMenuOpen"
+            >
+                ▼
+            </span>
             </button>
-            </div>
+
+@if (profileMenuOpen) {
+<div class="dropdown-menu-custom">
+
+    <button
+    type="button"
+    class="dropdown-logout"
+    (click)="logout()"
+    >
+    Cerrar sesión
+    </button>
+
+</div>
+}
+
         </div>
 
         <a
@@ -107,6 +124,7 @@
         >
             Reservar turno
         </a>
+
         }
 
     </div>
