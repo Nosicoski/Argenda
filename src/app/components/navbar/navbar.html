@@ -104,6 +104,13 @@
 @if (profileMenuOpen) {
 <div class="dropdown-menu-custom">
 
+    <a
+    routerLink="/agenda"
+    (click)="closeProfileMenu()"
+    >
+    Mi agenda
+    </a>
+
     <button
     type="button"
     class="dropdown-logout"

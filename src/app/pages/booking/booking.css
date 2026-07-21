@@ -190,36 +190,6 @@ background-color: #dfeaea;
 background-color: #19867f;
 }
 
-.date-container,
-.time-container {
-margin-bottom: 28px;
-}
-
-.date-container label,
-.time-container label {
-display: block;
-margin-bottom: 10px;
-color: #294750;
-font-weight: 800;
-}
-
-.form-control {
-min-height: 48px;
-border: 1px solid #c7dada;
-border-radius: 10px;
-}
-
-.form-control:focus {
-border-color: #19867f;
-box-shadow: 0 0 0 0.2rem rgba(25, 134, 127, 0.14);
-}
-
-.times-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 12px;
-}
-
 .time-option {
 padding: 12px;
 color: #49656d;
@@ -270,10 +240,6 @@ font-weight: 800;
 
 .step p {
     font-size: 0.65rem;
-}
-
-.times-grid {
-    grid-template-columns: repeat(2, 1fr);
 }
 
 .booking-actions {
@@ -400,6 +366,7 @@ color: #5f777e;
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
+}
 }
 
 .booking-error {
@@ -642,5 +609,224 @@ text-decoration: none;
 
 .time-option.unavailable:hover {
 border-color: #dfe6e6;
+}
+
+.time-option.past,
+.time-option.past:disabled {
+color: #b3c1c1;
+background-color: #f4f7f7;
+border-color: transparent;
+cursor: not-allowed;
+opacity: 1;
+}
+
+/* --- Paso 2: selector de fecha y hora --- */
+.booking-card.wide {
+max-width: 1040px;
+}
+
+.schedule-layout {
+display: grid;
+align-items: start;
+grid-template-columns: 1fr 300px;
+gap: 30px;
+}
+
+.week-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 15px;
+margin-bottom: 18px;
+}
+
+.month-label {
+color: #183943;
+font-size: 1.15rem;
+font-weight: 800;
+}
+
+.week-nav {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.week-nav-label {
+color: #71858b;
+font-size: 0.82rem;
+font-weight: 700;
+}
+
+.week-arrow {
+display: grid;
+width: 34px;
+height: 34px;
+color: #19867f;
+background-color: #ffffff;
+border: 1px solid #c7dada;
+border-radius: 50%;
+place-items: center;
+font-size: 0.85rem;
+transition: 0.2s ease;
+}
+
+.week-arrow:hover:not(:disabled) {
+background-color: #effaf8;
+border-color: #8fc4c0;
+}
+
+.week-arrow:disabled {
+color: #b3c5c5;
+cursor: not-allowed;
+}
+
+.days-strip {
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+gap: 8px;
+margin-bottom: 24px;
+}
+
+.day-chip {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 3px;
+padding: 11px 4px;
+background-color: #ffffff;
+border: 2px solid #e3ecec;
+border-radius: 999px;
+transition: 0.2s ease;
+}
+
+.day-chip small {
+color: #71858b;
+font-size: 0.72rem;
+font-weight: 700;
+}
+
+.day-chip strong {
+color: #294750;
+font-size: 1rem;
+font-weight: 800;
+}
+
+.day-chip:hover:not(:disabled) {
+border-color: #8fc4c0;
+}
+
+.day-chip.selected {
+background-color: #19867f;
+border-color: #19867f;
+}
+
+.day-chip.selected small,
+.day-chip.selected strong {
+color: #ffffff;
+}
+
+.day-chip:disabled {
+background-color: #f4f7f7;
+border-color: #eef2f2;
+cursor: not-allowed;
+}
+
+.day-chip:disabled small,
+.day-chip:disabled strong {
+color: #b6c4c7;
+}
+
+.slots-group {
+margin-bottom: 22px;
+}
+
+.slots-title {
+display: flex;
+align-items: center;
+gap: 14px;
+margin-bottom: 12px;
+color: #294750;
+font-weight: 800;
+}
+
+.slots-title::after {
+flex: 1;
+height: 1px;
+content: "";
+background-color: #e1ebeb;
+}
+
+.slots-row {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+gap: 10px;
+}
+
+.booking-info-card {
+position: sticky;
+top: 90px;
+padding: 20px;
+background-color: #ffffff;
+border: 1px solid #dfeaea;
+border-radius: 16px;
+box-shadow: 0 12px 30px rgba(39, 84, 87, 0.08);
+}
+
+.booking-info-card h3 {
+margin-bottom: 14px;
+color: #183943;
+font-size: 0.95rem;
+font-weight: 800;
+text-align: center;
+}
+
+.info-card-body {
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 16px;
+background-color: #effaf8;
+border: 1px solid #cde8e4;
+border-radius: 12px;
+}
+
+.info-service {
+margin-bottom: 4px;
+color: #176d69;
+font-size: 1rem;
+}
+
+.info-row {
+display: flex;
+align-items: center;
+gap: 9px;
+color: #49656d;
+font-size: 0.88rem;
+font-weight: 600;
+}
+
+.info-row .bi {
+color: #19867f;
+font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+.schedule-layout {
+    grid-template-columns: 1fr;
+}
+
+.booking-info-card {
+    position: static;
+}
+}
+
+@media (max-width: 576px) {
+.days-strip {
+    gap: 5px;
+}
+
+.day-chip {
+    padding: 8px 2px;
 }
 }

@@ -61,7 +61,10 @@
     </div>
     </div>
 
-    <section class="booking-card">
+    <section
+    class="booking-card"
+    [class.wide]="currentStep === 2"
+    >
 
     @if (bookingError) {
         <div
@@ -111,89 +114,162 @@
     }
 
     @if (currentStep === 2) {
-        <div class="date-container">
+        <div class="schedule-layout">
 
-        <label for="appointmentDate">
-            Elegí una fecha
-        </label>
+        <div class="schedule-main">
 
-        <input
-            id="appointmentDate"
-            type="date"
-            name="appointmentDate"
-            class="form-control"
-            [class.invalid-control]="dateTouched && dateIsInvalid"
-            [min]="minDate"
-            [(ngModel)]="selectedDate"
-            (change)="onDateChange()"
-            (blur)="dateTouched = true"
-        >
+            <div class="week-header">
+            <span class="month-label">{{ monthLabel }}</span>
 
-        @if (dateTouched && !selectedDate) {
-            <small class="field-error">
-            Seleccioná una fecha.
-            </small>
-        }
+            <div class="week-nav">
+                <button
+                type="button"
+                class="week-arrow"
+                aria-label="Semana anterior"
+                [disabled]="weekOffset === 0"
+                (click)="previousWeek()"
+                >
+                <i class="bi bi-chevron-left"></i>
+                </button>
 
-        @if (
-            dateTouched &&
-            selectedDate &&
-            dateIsInvalid
-        ) {
-            <small class="field-error">
-            La fecha no puede ser anterior al día de hoy.
-            </small>
-        }
+                <span class="week-nav-label">
+                Otras fechas disponibles
+                </span>
 
-        </div>
+                <button
+                type="button"
+                class="week-arrow"
+                aria-label="Semana siguiente"
+                [disabled]="weekOffset === maxWeekOffset"
+                (click)="nextWeek()"
+                >
+                <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+            </div>
 
-        <div class="time-container">
-
-        <label>Horarios disponibles</label>
-
-        @if (!selectedDate) {
-            <p class="field-helper">
-            Primero seleccioná una fecha.
-            </p>
-        }
-
-        <div
-            class="times-grid"
-            [class.times-disabled]="!selectedDate"
-        >
-            @for (time of availableTimes; track time) {
-<button
-type="button"
-class="time-option"
-[class.selected]="selectedTime === time"
-[class.unavailable]="isTimeUnavailable(time)"
-[disabled]="!selectedDate || isTimeUnavailable(time)"
-[attr.aria-pressed]="selectedTime === time"
-[attr.aria-label]="
-    isTimeUnavailable(time)
-    ? time + ' no disponible'
-    : time + ' disponible'
-"
-(click)="selectTime(time)"
->
-<span>{{ time }}</span>
-
-@if (isTimeUnavailable(time)) {
-    <small>Ocupado</small>
-}
-</button>
+            <div class="days-strip">
+            @for (day of weekDays; track day.fecha) {
+                <button
+                type="button"
+                class="day-chip"
+                [class.selected]="selectedDate === day.fecha"
+                [disabled]="day.off || day.past"
+                [attr.aria-pressed]="selectedDate === day.fecha"
+                (click)="selectDay(day)"
+                >
+                <small>{{ day.weekday }}</small>
+                <strong>{{ day.dayNumber }}</strong>
+                </button>
             }
-        </div>
+            </div>
 
-        @if (
+            <div class="slots-group">
+            <div class="slots-title">Mañana</div>
+
+            <div class="slots-row">
+                @for (time of morningTimes; track time) {
+                <button
+                    type="button"
+                    class="time-option"
+                    [class.selected]="selectedTime === time"
+                    [class.unavailable]="slotState(time) === 'occupied'"
+                    [class.past]="slotState(time) === 'past'"
+                    [disabled]="slotState(time) !== 'free'"
+                    [attr.aria-pressed]="selectedTime === time"
+                    [attr.aria-label]="
+                    slotState(time) === 'free'
+                        ? time + ' disponible'
+                        : time + ' no disponible'
+                    "
+                    (click)="selectTime(time)"
+                >
+                    <span>{{ time }}</span>
+
+                    @if (slotState(time) === 'occupied') {
+                    <small>Ocupado</small>
+                    }
+                </button>
+                }
+            </div>
+            </div>
+
+            <div class="slots-group">
+            <div class="slots-title">Tarde</div>
+
+            <div class="slots-row">
+                @for (time of afternoonTimes; track time) {
+                <button
+                    type="button"
+                    class="time-option"
+                    [class.selected]="selectedTime === time"
+                    [class.unavailable]="slotState(time) === 'occupied'"
+                    [class.past]="slotState(time) === 'past'"
+                    [disabled]="slotState(time) !== 'free'"
+                    [attr.aria-pressed]="selectedTime === time"
+                    [attr.aria-label]="
+                    slotState(time) === 'free'
+                        ? time + ' disponible'
+                        : time + ' no disponible'
+                    "
+                    (click)="selectTime(time)"
+                >
+                    <span>{{ time }}</span>
+
+                    @if (slotState(time) === 'occupied') {
+                    <small>Ocupado</small>
+                    }
+                </button>
+                }
+            </div>
+            </div>
+
+            @if (
             timeTouched &&
             selectedDate &&
             !selectedTime
-        ) {
+            ) {
             <small class="field-error time-error">
-            Seleccioná uno de los horarios disponibles.
+                Seleccioná uno de los horarios disponibles.
             </small>
-        }
+            }
+
+        </div>
+
+        <aside class="booking-info-card">
+            <h3>Información de tu servicio</h3>
+
+            <div class="info-card-body">
+            <strong class="info-service">
+                {{ selectedService?.name }}
+            </strong>
+
+            <div class="info-row">
+                <i class="bi bi-cash-coin"></i>
+                {{ formatPrice(selectedService?.price) }}
+            </div>
+
+            <div class="info-row">
+                <i class="bi bi-calendar2-event"></i>
+                {{ selectedDateLabel }}
+            </div>
+
+            <div class="info-row">
+                <i class="bi bi-clock"></i>
+
+                @if (selectedTime) {
+                {{ selectedTime }} hs · {{ selectedService?.duration }}
+                } @else {
+                {{ selectedService?.duration }}
+                }
+            </div>
+
+            <div class="info-row">
+                <i class="bi bi-person"></i>
+                {{ professional }}
+            </div>
+            </div>
+        </aside>
 
         </div>
 

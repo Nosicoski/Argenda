@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
+import { AppointmentService } from '../../services/appointment.service';
 import { AuthService } from '../../services/auth.service';
 
 interface BookingService {
@@ -10,6 +10,51 @@ interface BookingService {
   duration: string;
   price: number;
 }
+
+interface BookingDay {
+  fecha: string;
+  weekday: string;
+  dayNumber: string;
+  off: boolean;
+  past: boolean;
+}
+
+type SlotState = 'free' | 'occupied' | 'past';
+
+const WEEKDAY_NAMES = [
+  'Domingo',
+  'Lunes',
+  'Martes',
+  'Miércoles',
+  'Jueves',
+  'Viernes',
+  'Sábado'
+];
+
+const WEEKDAY_SHORT = [
+  'Dom',
+  'Lun',
+  'Mar',
+  'Mié',
+  'Jue',
+  'Vie',
+  'Sáb'
+];
+
+const MONTH_NAMES = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre'
+];
 
 interface Appointment {
   id: number;
@@ -26,7 +71,6 @@ interface Appointment {
 @Component({
   selector: 'app-booking',
   imports: [
-    FormsModule,
     RouterLink
   ],
   templateUrl: './booking.html',
@@ -39,6 +83,9 @@ export class Booking {
   selectedServiceId: number | null = null;
   selectedDate = '';
   selectedTime = '';
+
+  weekOffset = 0;
+  readonly maxWeekOffset = 3;
 
   bookingConfirmed = false;
   isSaving = false;
@@ -69,16 +116,8 @@ export class Booking {
     }
   ];
 
-  availableTimes: string[] = [
-    '09:00',
-    '10:30',
-    '12:00',
-    '15:00',
-    '16:30',
-    '18:00'
-  ];
-
   constructor(
+    private agenda: AppointmentService,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -90,13 +129,134 @@ export class Booking {
   }
 
   get minDate(): string {
-    const today = new Date();
+    /*
+     * "Hoy" sale de los datos mockeados de la agenda para que
+     * la disponibilidad quede sincronizada con el panel.
+     */
+    return this.agenda.hoy;
+  }
 
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+  // =========================
+  // Semana visible (paso 2)
+  // =========================
 
-    return `${year}-${month}-${day}`;
+  get weekDays(): BookingDay[] {
+    const monday = this.parseDate(this.agenda.hoy);
+
+    monday.setDate(
+      monday.getDate() + this.weekOffset * 7
+    );
+
+    return Array.from({ length: 7 }, (_, index) => {
+      const day = new Date(monday);
+      day.setDate(monday.getDate() + index);
+
+      const fecha = this.toIso(day);
+
+      return {
+        fecha,
+        weekday: WEEKDAY_SHORT[day.getDay()],
+        dayNumber: String(day.getDate()).padStart(2, '0'),
+        off: day.getDay() === 0,
+        past: fecha < this.agenda.hoy
+      };
+    });
+  }
+
+  get monthLabel(): string {
+    const days = this.weekDays;
+
+    const first = this.parseDate(days[0].fecha);
+    const last = this.parseDate(days[6].fecha);
+
+    const firstMonth = MONTH_NAMES[first.getMonth()];
+    const lastMonth = MONTH_NAMES[last.getMonth()];
+
+    if (firstMonth === lastMonth) {
+      return `${this.capitalize(firstMonth)} ${first.getFullYear()}`;
+    }
+
+    return `${this.capitalize(firstMonth)} · ${this.capitalize(lastMonth)} ${last.getFullYear()}`;
+  }
+
+  get professional(): string {
+    return this.agenda.profesional;
+  }
+
+  get morningTimes(): string[] {
+    return this.agenda.horarios.filter(
+      hora => hora < '13:00'
+    );
+  }
+
+  get afternoonTimes(): string[] {
+    return this.agenda.horarios.filter(
+      hora => hora >= '13:00'
+    );
+  }
+
+  get selectedDateLabel(): string {
+    if (!this.selectedDate) {
+      return '';
+    }
+
+    const date = this.parseDate(this.selectedDate);
+
+    const weekday = WEEKDAY_NAMES[date.getDay()];
+    const month = MONTH_NAMES[date.getMonth()];
+
+    return `${weekday}, ${date.getDate()} de ${month} de ${date.getFullYear()}`;
+  }
+
+  previousWeek(): void {
+    if (this.weekOffset > 0) {
+      this.weekOffset--;
+    }
+  }
+
+  nextWeek(): void {
+    if (this.weekOffset < this.maxWeekOffset) {
+      this.weekOffset++;
+    }
+  }
+
+  selectDay(day: BookingDay): void {
+    if (day.off || day.past) {
+      return;
+    }
+
+    this.selectedDate = day.fecha;
+    this.dateTouched = true;
+
+    /*
+     * Cuando cambia la fecha, limpiamos el horario anterior
+     * para evitar reservar accidentalmente un horario viejo.
+     */
+    this.selectedTime = '';
+    this.timeTouched = false;
+    this.bookingError = '';
+  }
+
+  slotState(time: string): SlotState {
+    if (!this.selectedDate) {
+      return 'free';
+    }
+
+    if (
+      this.agenda.ocupado(this.selectedDate, time) ||
+      this.isTimeUnavailable(time)
+    ) {
+      return 'occupied';
+    }
+
+    if (
+      this.selectedDate === this.agenda.hoy &&
+      time <= this.agenda.ahora
+    ) {
+      return 'past';
+    }
+
+    return 'free';
   }
 
   get dateIsInvalid(): boolean {
@@ -116,25 +276,14 @@ export class Booking {
     this.bookingError = '';
   }
 
-selectTime(time: string): void {
-  if (this.isTimeUnavailable(time)) {
-    return;
-  }
+  selectTime(time: string): void {
+    if (this.slotState(time) !== 'free') {
+      return;
+    }
 
-  this.selectedTime = time;
-  this.timeTouched = true;
-  this.bookingError = '';
-}
-  onDateChange(): void {
-    this.dateTouched = true;
-
-    /*
-     * Cuando cambia la fecha, limpiamos el horario anterior
-     * para evitar reservar accidentalmente un horario viejo.
-     */
-  this.selectedTime = '';
-  this.timeTouched = false;
-  this.bookingError = '';
+    this.selectedTime = time;
+    this.timeTouched = true;
+    this.bookingError = '';
   }
 
   nextStep(): void {
@@ -144,6 +293,10 @@ selectTime(time: string): void {
       if (this.selectedServiceId === null) {
         this.bookingError = 'Seleccioná un servicio para continuar.';
         return;
+      }
+
+      if (!this.selectedDate) {
+        this.selectedDate = this.agenda.hoy;
       }
 
       this.currentStep = 2;
@@ -255,6 +408,14 @@ selectTime(time: string): void {
         JSON.stringify(appointments)
       );
 
+      // La reserva también se refleja en la agenda del profesional
+      this.agenda.agregarReserva({
+        fecha: this.selectedDate,
+        hora: this.selectedTime,
+        cliente: currentUser.name,
+        servicio: this.selectedService.name
+      });
+
       this.bookingConfirmed = true;
     } catch (error) {
       console.error('Error al guardar el turno:', error);
@@ -311,17 +472,38 @@ selectTime(time: string): void {
     }
   }
   isTimeUnavailable(time: string): boolean {
-  if (!this.selectedDate) {
-    return false;
+    if (!this.selectedDate) {
+      return false;
+    }
+
+    const appointments = this.getStoredAppointments();
+
+    return appointments.some(
+      appointment =>
+        appointment.date === this.selectedDate &&
+        appointment.time === time &&
+        appointment.status !== 'Cancelado'
+    );
   }
 
-  const appointments = this.getStoredAppointments();
+  // =========================
+  // Helpers de fechas
+  // =========================
 
-  return appointments.some(
-    appointment =>
-      appointment.date === this.selectedDate &&
-      appointment.time === time &&
-      appointment.status !== 'Cancelado'
-  );
-}
+  private parseDate(iso: string): Date {
+    const [year, month, day] = iso.split('-').map(Number);
+
+    return new Date(year, month - 1, day);
+  }
+
+  private toIso(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${date.getFullYear()}-${month}-${day}`;
+  }
+
+  private capitalize(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
 }
