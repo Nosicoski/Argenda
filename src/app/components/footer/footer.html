@@ -1,1 +1,82 @@
-<p>footer works!</p>
+<footer class="arg-footer">
+  <div class="container">
+    <div class="row g-4 arg-footer-top">
+      <div class="col-lg-4 col-md-6">
+        <div class="arg-footer-brand">
+          <span class="arg-footer-logo">
+            <img src="logo-argenda-icon.svg" alt="" />
+          </span>
+          <strong>ARGENDA</strong>
+        </div>
+
+        <p class="arg-footer-desc">
+          La agenda de turnos online pensada para profesionales y centros de
+          Argentina. Reservas, recordatorios y pacientes en un solo lugar.
+        </p>
+
+        <div class="arg-footer-social">
+          <a href="#" (click)="$event.preventDefault()" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" (click)="$event.preventDefault()" aria-label="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="#" (click)="$event.preventDefault()" aria-label="LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="#" (click)="$event.preventDefault()" aria-label="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6 col-6">
+        <h3 class="arg-footer-title">Producto</h3>
+        <ul class="arg-footer-links">
+          <li><a routerLink="/inicio" fragment="funcionalidades">Funcionalidades</a></li>
+          <li><a routerLink="/servicios">Servicios</a></li>
+          <li><a routerLink="/reservar">Reservar turno</a></li>
+          <li><a href="#" (click)="$event.preventDefault()">Tutoriales</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-md-6 col-6">
+        <h3 class="arg-footer-title">Empresa</h3>
+        <ul class="arg-footer-links">
+          <li><a routerLink="/inicio" fragment="nosotros">Nosotros</a></li>
+          <li><a routerLink="/inicio" fragment="porque">¿Por qué Argenda?</a></li>
+          <li><a href="#" (click)="$event.preventDefault()">Blog</a></li>
+          <li><a routerLink="/inicio" fragment="faq">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <h3 class="arg-footer-title">Contacto</h3>
+        <ul class="arg-footer-links arg-footer-contact">
+          <li>
+            <i class="bi bi-envelope"></i>
+            hola&#64;argenda.app
+          </li>
+          <li>
+            <i class="bi bi-whatsapp"></i>
+            +54 9 11 5555-0000
+          </li>
+          <li>
+            <i class="bi bi-geo-alt"></i>
+            Buenos Aires, Argentina
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="arg-footer-bottom d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <span>© {{ year }} Argenda. Todos los derechos reservados.</span>
+
+      <div class="arg-footer-legal">
+        <a href="#" (click)="$event.preventDefault()">Términos y condiciones</a>
+        <span aria-hidden="true">·</span>
+        <a href="#" (click)="$event.preventDefault()">Política de privacidad</a>
+      </div>
+    </div>
+  </div>
+</footer>
