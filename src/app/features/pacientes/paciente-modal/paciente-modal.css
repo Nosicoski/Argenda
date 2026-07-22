@@ -1,0 +1,112 @@
+/* --- Overlay y contenedor (mismo patrón que Nueva Reserva) --- */
+.arg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  background-color: rgba(22, 48, 47, 0.45);
+  padding: 1rem;
+}
+
+.arg-modal {
+  width: min(520px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  background-color: var(--arg-surface);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(22, 48, 47, 0.3);
+  padding: 1.4rem 1.6rem;
+}
+
+.arg-modal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--arg-text);
+}
+
+.arg-modal-close {
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  color: var(--arg-secondary);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.arg-modal-close:hover {
+  color: var(--arg-primary);
+}
+
+/* --- Campos --- */
+.arg-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--arg-text);
+  margin-bottom: 0.35rem;
+}
+
+.arg-control {
+  border-color: var(--arg-border);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--arg-text);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.arg-control:focus {
+  border-color: var(--arg-primary);
+  box-shadow: 0 0 0 0.2rem rgba(52, 129, 126, 0.14);
+}
+
+.arg-input-icon {
+  position: relative;
+}
+
+.arg-input-icon > .bi {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--arg-neutral);
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.arg-control-icon {
+  padding-left: 2.1rem;
+}
+
+.arg-field-error {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #bd4848;
+}
+
+/* --- Botones --- */
+.arg-btn-ghost {
+  border: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
+  color: var(--arg-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.45rem 1.1rem;
+}
+
+.arg-btn-ghost:hover {
+  background-color: var(--arg-surface-softer);
+}
+
+.arg-btn-save {
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.45rem 1.2rem;
+}

@@ -1,0 +1,122 @@
+<div class="arg-modal-overlay" (click)="closed.emit()">
+  <div
+    class="arg-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pacienteModalTitle"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Encabezado -->
+    <header class="d-flex align-items-center justify-content-between mb-4">
+      <h2 id="pacienteModalTitle" class="arg-modal-title mb-0">
+        {{ isEdit() ? 'Editar paciente' : 'Nuevo paciente' }}
+      </h2>
+
+      <button
+        class="arg-modal-close"
+        type="button"
+        aria-label="Cerrar"
+        (click)="closed.emit()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </header>
+
+    <form (ngSubmit)="guardar()">
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6">
+          <label class="arg-label" for="pmNombre">Nombre *</label>
+          <input
+            id="pmNombre"
+            name="nombre"
+            class="form-control arg-control"
+            [class.is-invalid]="nombreInvalido"
+            [(ngModel)]="nombre"
+            placeholder="Ej: María"
+          />
+          @if (nombreInvalido) {
+            <small class="arg-field-error">Ingresá el nombre.</small>
+          }
+        </div>
+
+        <div class="col-sm-6">
+          <label class="arg-label" for="pmApellido">Apellido *</label>
+          <input
+            id="pmApellido"
+            name="apellido"
+            class="form-control arg-control"
+            [class.is-invalid]="apellidoInvalido"
+            [(ngModel)]="apellido"
+            placeholder="Ej: González"
+          />
+          @if (apellidoInvalido) {
+            <small class="arg-field-error">Ingresá el apellido.</small>
+          }
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="arg-label" for="pmCorreo">Correo</label>
+        <div class="arg-input-icon">
+          <i class="bi bi-envelope"></i>
+          <input
+            id="pmCorreo"
+            name="correo"
+            type="email"
+            class="form-control arg-control arg-control-icon"
+            [class.is-invalid]="correoInvalido"
+            [(ngModel)]="correo"
+            placeholder="nombre@correo.com"
+          />
+        </div>
+        @if (correoInvalido) {
+          <small class="arg-field-error">El correo no es válido.</small>
+        }
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6">
+          <label class="arg-label" for="pmTelefono">Teléfono</label>
+          <div class="arg-input-icon">
+            <i class="bi bi-telephone"></i>
+            <input
+              id="pmTelefono"
+              name="telefono"
+              class="form-control arg-control arg-control-icon"
+              [(ngModel)]="telefono"
+              placeholder="+54 9 11 ..."
+            />
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <label class="arg-label" for="pmDni">DNI</label>
+          <div class="arg-input-icon">
+            <i class="bi bi-person-vcard"></i>
+            <input
+              id="pmDni"
+              name="dni"
+              class="form-control arg-control arg-control-icon"
+              [(ngModel)]="dni"
+              placeholder="Ej: 32.456.789"
+            />
+          </div>
+        </div>
+      </div>
+
+      <footer class="d-flex justify-content-end gap-2">
+        <button
+          class="btn arg-btn-ghost"
+          type="button"
+          (click)="closed.emit()"
+        >
+          Cancelar
+        </button>
+
+        <button class="btn btn-arg-primary arg-btn-save" type="submit">
+          {{ isEdit() ? 'Guardar cambios' : 'Crear paciente' }}
+        </button>
+      </footer>
+    </form>
+  </div>
+</div>
