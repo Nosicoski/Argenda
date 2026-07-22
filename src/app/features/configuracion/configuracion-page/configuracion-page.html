@@ -1,0 +1,93 @@
+<section class="arg-config d-flex flex-column h-100">
+  <div class="arg-config-header d-flex align-items-center justify-content-between px-4">
+    <h1 class="arg-config-title mb-0">Configuración</h1>
+
+    <button class="btn btn-arg-primary arg-btn-save" type="button">
+      Guardar cambios
+    </button>
+  </div>
+
+  <div class="arg-config-body flex-grow-1">
+    <div class="arg-config-card mb-4">
+      <h2 class="arg-config-section">Notificaciones</h2>
+
+      <div class="arg-config-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="cfEmail" checked />
+        <label class="form-check-label" for="cfEmail">
+          Recordatorios por email
+          <span class="arg-config-hint">El paciente recibe un email 24 hs antes del turno.</span>
+        </label>
+      </div>
+
+      <div class="arg-config-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="cfWhatsApp" checked />
+        <label class="form-check-label" for="cfWhatsApp">
+          Recordatorios por WhatsApp
+          <span class="arg-config-hint">Mensaje automático con los datos de la reserva.</span>
+        </label>
+      </div>
+
+      <div class="arg-config-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="cfConfirmacion" />
+        <label class="form-check-label" for="cfConfirmacion">
+          Confirmación automática de turnos
+          <span class="arg-config-hint">Los turnos nuevos se confirman sin revisión manual.</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="arg-config-card mb-4">
+      <h2 class="arg-config-section">Agenda</h2>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="arg-config-label" for="cfDuracion">Duración del turno</label>
+          <select id="cfDuracion" class="form-select arg-config-select">
+            <option>30 minutos</option>
+            <option selected>60 minutos</option>
+            <option>90 minutos</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="arg-config-label" for="cfApertura">Horario de apertura</label>
+          <select id="cfApertura" class="form-select arg-config-select">
+            @for (hora of horarios; track hora) {
+              <option [selected]="hora === '09:00'">{{ hora }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="arg-config-label" for="cfCierre">Horario de cierre</label>
+          <select id="cfCierre" class="form-select arg-config-select">
+            @for (hora of horarios; track hora) {
+              <option [selected]="hora === '19:00'">{{ hora }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="arg-config-card">
+      <h2 class="arg-config-section">Reservas online</h2>
+
+      <div class="arg-config-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="cfOnline" checked />
+        <label class="form-check-label" for="cfOnline">
+          Permitir reservas online
+          <span class="arg-config-hint">Tus pacientes pueden reservar desde la página pública.</span>
+        </label>
+      </div>
+
+      <label class="arg-config-label" for="cfLink">Link de reservas</label>
+      <div class="d-flex align-items-center gap-2">
+        <input id="cfLink" class="form-control arg-config-select" value="argenda.app/reservar" readonly />
+        <button class="arg-btn-outline" type="button">
+          <i class="bi bi-clipboard"></i>
+          Copiar
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

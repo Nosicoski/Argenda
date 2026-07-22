@@ -84,6 +84,14 @@
                   <span class="arg-reserva-hora">{{ reserva.hora }}</span>
                   <span class="arg-reserva-cliente">{{ reserva.cliente }}</span>
                   <span class="arg-reserva-servicio">{{ reserva.servicio }}</span>
+                  <button
+                    class="arg-reserva-del"
+                    type="button"
+                    aria-label="Eliminar reserva"
+                    (click)="$event.stopPropagation(); askDelete(reserva)"
+                  >
+                    <i class="bi bi-trash3"></i>
+                  </button>
                 </div>
               }
               @if (selected()?.day === di && selected()?.hour === hi) {
@@ -122,12 +130,51 @@
     </div>
   </div>
 
-  <!-- Modal Nueva Reserva (solo diseño) -->
+  <!-- Modal Nueva Reserva -->
   @if (reservaOpen()) {
     <app-nueva-reserva-modal
       [fecha]="selectedFecha()"
       [hora]="selectedHora()"
       (closed)="closeReserva()"
+      (saved)="guardarReserva($event)"
     />
+  }
+
+  <!-- Confirmación de borrado -->
+  @if (deleting(); as reserva) {
+    <div class="arg-confirm-overlay" (click)="cancelDelete()">
+      <div
+        class="arg-confirm"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="confirmDeleteReservaTitle"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="arg-confirm-icon">
+          <i class="bi bi-trash3"></i>
+        </div>
+
+        <h2 id="confirmDeleteReservaTitle" class="arg-confirm-title">
+          ¿Eliminar reserva?
+        </h2>
+
+        <p class="arg-confirm-text">
+          Vas a eliminar la reserva de
+          <strong>{{ reserva.cliente }}</strong>
+          ({{ reserva.servicio }}) del {{ reserva.fecha }} a las
+          {{ reserva.hora }}. Esta acción no se puede deshacer.
+        </p>
+
+        <div class="d-flex justify-content-center gap-2">
+          <button class="arg-btn-outline" type="button" (click)="cancelDelete()">
+            Cancelar
+          </button>
+
+          <button class="btn arg-btn-danger" type="button" (click)="confirmDelete()">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
   }
 </section>

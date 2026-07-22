@@ -1,0 +1,88 @@
+<section class="arg-perfil d-flex flex-column h-100">
+  <div class="arg-perfil-header d-flex align-items-center justify-content-between px-4">
+    <h1 class="arg-perfil-title mb-0">Mi Perfil</h1>
+
+    <button class="btn btn-arg-primary arg-btn-save" type="button">
+      Guardar cambios
+    </button>
+  </div>
+
+  <div class="arg-perfil-body flex-grow-1">
+    <div class="arg-perfil-card d-flex align-items-center gap-4 mb-4">
+      <span class="arg-perfil-avatar">JN</span>
+
+      <div class="flex-grow-1">
+        <h2 class="arg-perfil-name mb-1">Juan Nosicoski</h2>
+        <p class="arg-perfil-meta mb-0">{{ email }}</p>
+        <p class="arg-perfil-meta mb-0">ID {{ id }}</p>
+      </div>
+
+      <div class="d-flex flex-column align-items-end gap-2">
+        <span class="arg-perfil-plan">Plan Profesional</span>
+        <button class="arg-btn-outline" type="button">
+          <i class="bi bi-camera"></i>
+          Cambiar foto
+        </button>
+      </div>
+    </div>
+
+    <div class="arg-perfil-card mb-4">
+      <h3 class="arg-perfil-section">Datos personales</h3>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfNombre">Nombre</label>
+          <input id="pfNombre" class="form-control arg-perfil-input" value="Juan" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfApellido">Apellido</label>
+          <input id="pfApellido" class="form-control arg-perfil-input" value="Nosicoski" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfEmail">Correo electrónico</label>
+          <input id="pfEmail" class="form-control arg-perfil-input" type="email" [value]="email" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfTelefono">Teléfono</label>
+          <input id="pfTelefono" class="form-control arg-perfil-input" value="+54 9 11 5555-0001" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfEspecialidad">Especialidad</label>
+          <input id="pfEspecialidad" class="form-control arg-perfil-input" value="Psicología" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="arg-perfil-label" for="pfDni">DNI</label>
+          <input id="pfDni" class="form-control arg-perfil-input" value="30.123.456" />
+        </div>
+      </div>
+    </div>
+
+    <div class="arg-perfil-card">
+      <h3 class="arg-perfil-section">Seguridad</h3>
+
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="arg-perfil-label" for="pfPassActual">Contraseña actual</label>
+          <input id="pfPassActual" class="form-control arg-perfil-input" type="password" placeholder="••••••••" />
+        </div>
+
+        <div class="col-md-4">
+          <label class="arg-perfil-label" for="pfPassNueva">Nueva contraseña</label>
+          <input id="pfPassNueva" class="form-control arg-perfil-input" type="password" placeholder="••••••••" />
+        </div>
+
+        <div class="col-md-4">
+          <button class="arg-btn-outline w-100 justify-content-center" type="button">
+            <i class="bi bi-shield-lock"></i>
+            Actualizar contraseña
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -8,12 +8,16 @@ import { Register } from './pages/register/register';
 import { MyAppointments } from './pages/my-appointments/my-appointments';
 import { PacientesPage } from './features/pacientes/pacientes-page/pacientes-page';
 import { ProfesionalesPage } from './features/profesionales/profesionales-page/profesionales-page';
+import { PerfilPage } from './features/perfil/perfil-page/perfil-page';
+import { ConfiguracionPage } from './features/configuracion/configuracion-page/configuracion-page';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'agenda', pathMatch: 'full' },
   { path: 'agenda', component: AgendaPage },
   { path: 'pacientes', component: PacientesPage, title: 'Pacientes | Argenda' },
   { path: 'profesionales', component: ProfesionalesPage, title: 'Profesionales | Argenda' },
+  { path: 'perfil', component: PerfilPage, title: 'Mi perfil | Argenda' },
+  { path: 'configuracion', component: ConfiguracionPage, title: 'Configuración | Argenda' },
   { path: 'inicio', component: Home, title: 'Inicio | Argenda' },
   { path: 'servicios', component: Services, title: 'Servicios | Argenda' },
   { path: 'reservar', component: Booking, title: 'Reservar turno | Argenda' },
