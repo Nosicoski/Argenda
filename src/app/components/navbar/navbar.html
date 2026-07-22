@@ -6,12 +6,12 @@
     routerLink="/inicio"
     (click)="closeMenu()"
     >
-    <span class="brand-logo">✓</span>
-
-    <div class="brand-text">
-        <strong>ARGENDA</strong>
-        <small>Tu momento, tu turno</small>
-    </div>
+    <img
+        class="brand-logo-img"
+        src="logo-argenda-icon.svg"
+        alt=""
+    />
+    <span class="brand-name">ARGENDA</span>
     </a>
 
     <button
@@ -34,30 +34,53 @@
 
         <a
         routerLink="/inicio"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
+        fragment="funcionalidades"
         (click)="closeMenu()"
         >
-        Inicio
+        Funcionalidades
         </a>
 
         <a
-        routerLink="/servicios"
-        routerLinkActive="active-link"
+        routerLink="/inicio"
+        fragment="porque"
         (click)="closeMenu()"
         >
-        Servicios
+        ¿Por qué?
         </a>
 
-        @if (authService.loggedIn()) {
         <a
-            routerLink="/mis-turnos"
-            routerLinkActive="active-link"
-            (click)="closeMenu()"
+        routerLink="/inicio"
+        fragment="nosotros"
+        (click)="closeMenu()"
         >
-            Mis turnos
+        Nosotros
         </a>
-        }
+
+        <a
+        routerLink="/inicio"
+        fragment="contacto"
+        (click)="closeMenu()"
+        >
+        Contacto
+        </a>
+
+        <span class="nav-divider" aria-hidden="true"></span>
+
+        <a href="#" (click)="$event.preventDefault()">
+        Blog
+        </a>
+
+        <a href="#" (click)="$event.preventDefault()">
+        Tutoriales
+        </a>
+
+        <a
+        routerLink="/inicio"
+        fragment="faq"
+        (click)="closeMenu()"
+        >
+        FAQ
+        </a>
 
     </div>
 
@@ -109,6 +132,13 @@
     (click)="closeProfileMenu()"
     >
     Mi agenda
+    </a>
+
+    <a
+    routerLink="/mis-turnos"
+    (click)="closeProfileMenu()"
+    >
+    Mis turnos
     </a>
 
     <button

@@ -6,17 +6,16 @@
 .arg-logo {
   width: 44px;
   height: 44px;
-  background-color: var(--arg-primary);
+  background-color: var(--arg-surface);
   border-radius: 12px;
   flex-shrink: 0;
   text-decoration: none;
 }
 
-.arg-logo-check {
-  color: #fff;
-  font-size: 1.45rem;
-  font-weight: 900;
-  line-height: 1;
+.arg-logo-img {
+  width: 34px;
+  height: 34px;
+  display: block;
 }
 
 .arg-nav-item {

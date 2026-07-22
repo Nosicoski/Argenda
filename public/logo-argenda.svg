@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 490">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 238 V172 Q96 132 136 132" stroke="#16302f" stroke-width="20" />
+    <path d="M136 132 H344 Q384 132 384 172 V238" stroke="#34817e" stroke-width="20" />
+    <line x1="165" y1="92" x2="165" y2="164" stroke="#34817e" stroke-width="20" />
+    <line x1="315" y1="92" x2="315" y2="164" stroke="#34817e" stroke-width="20" />
+    <line x1="140" y1="202" x2="340" y2="202" stroke="#34817e" stroke-width="20" />
+    <path d="M96 350 V412 Q96 440 124 440 H208 L248 402" stroke="#16302f" stroke-width="20" />
+    <path d="M262 400 L302 442 L396 346" stroke="#34817e" stroke-width="34" />
+  </g>
+  <text
+    x="240"
+    y="322"
+    text-anchor="middle"
+    font-family="'Hanken Grotesk', 'Segoe UI', Arial, sans-serif"
+    font-size="84"
+    font-weight="800"
+    letter-spacing="2"
+    fill="#16302f"
+  >ARGENDA</text>
+</svg>
