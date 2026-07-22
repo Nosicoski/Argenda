@@ -1,0 +1,120 @@
+<div class="arg-modal-overlay" (click)="closed.emit()">
+  <div
+    class="arg-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="profesionalModalTitle"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Encabezado -->
+    <header class="d-flex align-items-center justify-content-between mb-4">
+      <h2 id="profesionalModalTitle" class="arg-modal-title mb-0">
+        {{ isEdit() ? 'Editar profesional' : 'Nuevo profesional' }}
+      </h2>
+
+      <button
+        class="arg-modal-close"
+        type="button"
+        aria-label="Cerrar"
+        (click)="closed.emit()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </header>
+
+    <form (ngSubmit)="guardar()">
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6">
+          <label class="arg-label" for="prNombre">Nombre *</label>
+          <input
+            id="prNombre"
+            name="nombre"
+            class="form-control arg-control"
+            [class.is-invalid]="nombreInvalido"
+            [(ngModel)]="nombre"
+            placeholder="Ej: Juan"
+          />
+          @if (nombreInvalido) {
+            <small class="arg-field-error">Ingresá el nombre.</small>
+          }
+        </div>
+
+        <div class="col-sm-6">
+          <label class="arg-label" for="prApellido">Apellido *</label>
+          <input
+            id="prApellido"
+            name="apellido"
+            class="form-control arg-control"
+            [class.is-invalid]="apellidoInvalido"
+            [(ngModel)]="apellido"
+            placeholder="Ej: Nosicoski"
+          />
+          @if (apellidoInvalido) {
+            <small class="arg-field-error">Ingresá el apellido.</small>
+          }
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="arg-label" for="prEspecialidad">Especialidad</label>
+        <div class="arg-input-icon">
+          <i class="bi bi-award"></i>
+          <input
+            id="prEspecialidad"
+            name="especialidad"
+            class="form-control arg-control arg-control-icon"
+            [(ngModel)]="especialidad"
+            placeholder="Ej: Psicología"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="arg-label" for="prCorreo">Correo</label>
+        <div class="arg-input-icon">
+          <i class="bi bi-envelope"></i>
+          <input
+            id="prCorreo"
+            name="correo"
+            type="email"
+            class="form-control arg-control arg-control-icon"
+            [class.is-invalid]="correoInvalido"
+            [(ngModel)]="correo"
+            placeholder="nombre@correo.com"
+          />
+        </div>
+        @if (correoInvalido) {
+          <small class="arg-field-error">El correo no es válido.</small>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label class="arg-label" for="prTelefono">Teléfono</label>
+        <div class="arg-input-icon">
+          <i class="bi bi-telephone"></i>
+          <input
+            id="prTelefono"
+            name="telefono"
+            class="form-control arg-control arg-control-icon"
+            [(ngModel)]="telefono"
+            placeholder="+54 9 11 ..."
+          />
+        </div>
+      </div>
+
+      <footer class="d-flex justify-content-end gap-2">
+        <button
+          class="btn arg-btn-ghost"
+          type="button"
+          (click)="closed.emit()"
+        >
+          Cancelar
+        </button>
+
+        <button class="btn btn-arg-primary arg-btn-save" type="submit">
+          {{ isEdit() ? 'Guardar cambios' : 'Crear profesional' }}
+        </button>
+      </footer>
+    </form>
+  </div>
+</div>

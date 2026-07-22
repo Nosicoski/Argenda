@@ -6,12 +6,59 @@
 
   <nav class="d-flex align-items-center gap-4 flex-grow-1">
     @for (item of navItems; track item.label) {
-      <a class="arg-nav-link" [class.active]="item.active" href="#">
-        {{ item.label }}
-        @if (item.menu) {
-          <i class="bi bi-chevron-down arg-nav-caret"></i>
+      <div class="arg-nav-item">
+        @if (item.link) {
+          <a
+            class="arg-nav-link"
+            [routerLink]="item.link"
+            routerLinkActive="active"
+            (click)="closeMenu()"
+          >
+            {{ item.label }}
+            @if (item.menu) {
+              <i class="bi bi-chevron-down arg-nav-caret"></i>
+            }
+          </a>
+        } @else if (item.children.length > 0) {
+          <button
+            class="arg-nav-link"
+            type="button"
+            [class.active]="isSectionActive(item) || openMenu() === item.label"
+            [attr.aria-expanded]="openMenu() === item.label"
+            (click)="toggleMenu(item.label)"
+          >
+            {{ item.label }}
+            <i class="bi bi-chevron-down arg-nav-caret"></i>
+          </button>
+
+          @if (openMenu() === item.label) {
+            <div class="arg-nav-menu">
+              @for (child of item.children; track child.label) {
+                @if (child.link) {
+                  <a
+                    [routerLink]="child.link"
+                    routerLinkActive="active"
+                    (click)="closeMenu()"
+                  >
+                    {{ child.label }}
+                  </a>
+                } @else {
+                  <a href="#" (click)="$event.preventDefault()">
+                    {{ child.label }}
+                  </a>
+                }
+              }
+            </div>
+          }
+        } @else {
+          <a class="arg-nav-link" href="#" (click)="$event.preventDefault()">
+            {{ item.label }}
+            @if (item.menu) {
+              <i class="bi bi-chevron-down arg-nav-caret"></i>
+            }
+          </a>
         }
-      </a>
+      </div>
     }
   </nav>
 

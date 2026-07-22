@@ -1,0 +1,244 @@
+<section class="arg-pacientes d-flex flex-column h-100">
+  <!-- Encabezado -->
+  <div class="arg-pac-header d-flex align-items-center justify-content-between px-4">
+    <h1 class="arg-pac-title mb-0">Equipo de Profesionales</h1>
+
+    <div class="d-flex align-items-center gap-2">
+      <button class="arg-btn-outline" type="button">
+        <i class="bi bi-upload"></i>
+        Importar profesionales
+      </button>
+
+      <button
+        class="btn btn-arg-primary arg-btn-new"
+        type="button"
+        (click)="openNew()"
+      >
+        <i class="bi bi-plus-lg"></i>
+        Nuevo profesional
+      </button>
+    </div>
+  </div>
+
+  <div class="arg-pac-body d-flex flex-grow-1">
+    <!-- Filtros avanzados (solo diseño) -->
+    <aside class="arg-filters flex-shrink-0">
+      <h2 class="arg-filters-title">Filtros avanzados</h2>
+
+      <div class="arg-filter-group">
+        <label class="arg-filter-label" for="fLocal">Local/sede</label>
+        <select id="fLocal" class="form-select arg-filter-select">
+          <option>Selecciona...</option>
+        </select>
+      </div>
+
+      <div class="arg-filter-group">
+        <label class="arg-filter-label" for="fEspecialidad">Especialidad</label>
+        <select id="fEspecialidad" class="form-select arg-filter-select">
+          <option>Selecciona...</option>
+          <option>Psicología</option>
+          <option>Estética</option>
+        </select>
+      </div>
+
+      <div class="arg-filter-group">
+        <label class="arg-filter-label" for="fServicios">Servicios que realiza</label>
+        <select id="fServicios" class="form-select arg-filter-select">
+          <option>Selecciona...</option>
+        </select>
+      </div>
+
+      <button class="arg-filter-toggle" type="button">
+        Estado del profesional
+        <i class="bi bi-plus"></i>
+      </button>
+
+      <button class="arg-filter-toggle" type="button">
+        Agenda online
+        <i class="bi bi-plus"></i>
+      </button>
+
+      <div class="arg-filter-group pt-3">
+        <label class="arg-filter-label" for="fAlta">Fecha de alta</label>
+        <select id="fAlta" class="form-select arg-filter-select">
+          <option>Desde / hasta</option>
+        </select>
+      </div>
+
+      <button class="arg-filter-toggle" type="button">
+        ¿Tiene reservas?
+        <i class="bi bi-plus"></i>
+      </button>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="arg-pac-main flex-grow-1">
+      <div class="d-flex align-items-center justify-content-between gap-3 mb-3 flex-wrap">
+        <div class="arg-search flex-grow-1">
+          <i class="bi bi-search"></i>
+          <input
+            type="search"
+            class="form-control arg-search-input"
+            placeholder="Busca por nombre, apellido, especialidad, email y teléfono"
+            [value]="search()"
+            (input)="onSearch($event)"
+          />
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <button class="arg-link-btn" type="button">
+            <i class="bi bi-clock-history"></i>
+            Gestionar horarios de atención
+          </button>
+
+          <button class="arg-btn-outline" type="button">
+            Acciones
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="arg-table-card">
+        <div class="arg-table-count">
+          Mostrando {{ filtrados().length }} de {{ profesionales().length }} profesionales
+        </div>
+
+        <div class="table-responsive">
+          <table class="arg-table w-100">
+            <thead>
+              <tr>
+                <th>Nombre <i class="bi bi-arrow-down-up"></i></th>
+                <th>Apellido <i class="bi bi-arrow-down-up"></i></th>
+                <th>Especialidad <i class="bi bi-arrow-down-up"></i></th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th class="text-end">Opciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (profesional of filtrados(); track profesional.id) {
+                <tr>
+                  <td>{{ profesional.nombre }}</td>
+                  <td>{{ profesional.apellido }}</td>
+                  <td>
+                    @if (profesional.especialidad) {
+                      <span class="arg-especialidad-chip">
+                        {{ profesional.especialidad }}
+                      </span>
+                    }
+                  </td>
+                  <td>{{ profesional.correo }}</td>
+                  <td>{{ profesional.telefono }}</td>
+                  <td>
+                    <div class="d-flex justify-content-end gap-2">
+                      <button
+                        class="arg-row-btn"
+                        type="button"
+                        aria-label="Editar profesional"
+                        (click)="openEdit(profesional)"
+                      >
+                        <i class="bi bi-eye"></i>
+                      </button>
+
+                      <button
+                        class="arg-row-btn danger"
+                        type="button"
+                        aria-label="Eliminar profesional"
+                        (click)="askDelete(profesional)"
+                      >
+                        <i class="bi bi-trash3"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="arg-table-empty">
+                    No se encontraron profesionales.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginación (solo diseño) -->
+        <div class="arg-pagination d-flex align-items-center justify-content-center gap-3">
+          <button class="arg-page-btn" type="button" disabled>
+            <i class="bi bi-chevron-left"></i>
+            Anterior
+          </button>
+
+          <span class="arg-page-current">1</span>
+
+          <button class="arg-page-btn" type="button" disabled>
+            Siguiente
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+          <button class="arg-page-btn per-page" type="button">
+            25 por página
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </div>
+
+        <div class="arg-page-info text-end">página 1 de 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de alta/edición -->
+  @if (modal() !== null) {
+    <app-profesional-modal
+      [profesional]="editingProfesional()"
+      (saved)="save($event)"
+      (closed)="closeModal()"
+    />
+  }
+
+  <!-- Confirmación de borrado -->
+  @if (deleting(); as profesional) {
+    <div class="arg-confirm-overlay" (click)="cancelDelete()">
+      <div
+        class="arg-confirm"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="confirmDeleteTitle"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="arg-confirm-icon">
+          <i class="bi bi-trash3"></i>
+        </div>
+
+        <h2 id="confirmDeleteTitle" class="arg-confirm-title">
+          ¿Eliminar profesional?
+        </h2>
+
+        <p class="arg-confirm-text">
+          Vas a eliminar a
+          <strong>{{ profesional.nombre }} {{ profesional.apellido }}</strong>
+          del equipo de profesionales. Esta acción no se puede deshacer.
+        </p>
+
+        <div class="d-flex justify-content-center gap-2">
+          <button
+            class="arg-btn-outline"
+            type="button"
+            (click)="cancelDelete()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="btn arg-btn-danger"
+            type="button"
+            (click)="confirmDelete()"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>
