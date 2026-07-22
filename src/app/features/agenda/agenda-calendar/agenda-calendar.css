@@ -378,3 +378,102 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.arg-reserva-del {
+  display: none;
+  margin-left: auto;
+  border: none;
+  background: none;
+  padding: 0 2px;
+  color: #bd4848;
+  font-size: 0.78rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.arg-reserva:hover .arg-reserva-del {
+  display: inline-flex;
+}
+
+.arg-reserva-del:hover {
+  color: #a53c3c;
+}
+
+/* --- Confirmación de borrado --- */
+.arg-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  background-color: rgba(22, 48, 47, 0.45);
+  padding: 1rem;
+}
+
+.arg-confirm {
+  width: min(400px, 100%);
+  background-color: var(--arg-surface);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(22, 48, 47, 0.3);
+  padding: 1.6rem 1.5rem;
+  text-align: center;
+}
+
+.arg-confirm-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 0.9rem;
+  border-radius: 50%;
+  background-color: #fdf1f1;
+  color: #bd4848;
+  font-size: 1.3rem;
+}
+
+.arg-confirm-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--arg-text);
+  margin-bottom: 0.5rem;
+}
+
+.arg-confirm-text {
+  font-size: 0.86rem;
+  color: var(--arg-neutral);
+  margin-bottom: 1.2rem;
+}
+
+.arg-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--arg-border);
+  background-color: var(--arg-surface);
+  color: var(--arg-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.42rem 0.95rem;
+  white-space: nowrap;
+}
+
+.arg-btn-outline:hover {
+  background-color: var(--arg-surface-softer);
+}
+
+.arg-btn-danger {
+  background-color: #bd4848;
+  border: 1px solid #bd4848;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 0.42rem 1.1rem;
+}
+
+.arg-btn-danger:hover {
+  background-color: #a53c3c;
+  border-color: #a53c3c;
+  color: #ffffff;
+}

@@ -77,9 +77,67 @@
       Reservas Online
     </button>
 
-    <button class="arg-icon-btn" type="button" aria-label="Configuración">
+    <a
+      class="arg-icon-btn"
+      routerLink="/configuracion"
+      aria-label="Configuración"
+      (click)="closeProfile(); closeMenu()"
+    >
       <i class="bi bi-gear"></i>
-    </button>
-    <span class="arg-avatar" role="img" aria-label="Juan Nosicoski">JN</span>
+    </a>
+
+    <div class="arg-profile-wrap position-relative">
+      <button
+        class="arg-avatar-btn"
+        type="button"
+        aria-label="Menú de usuario"
+        [attr.aria-expanded]="profileOpen()"
+        (click)="toggleProfile()"
+      >
+        <span class="arg-avatar">JN</span>
+      </button>
+
+      @if (profileOpen()) {
+        <div class="arg-profile-menu">
+          <div class="arg-profile-head d-flex align-items-center gap-3">
+            <span class="arg-profile-avatar">JN</span>
+            <div class="arg-profile-info">
+              <span class="arg-profile-email">{{ profileEmail }}</span>
+              <span class="arg-profile-id">ID {{ profileId }}</span>
+              <a
+                class="arg-profile-link"
+                routerLink="/perfil"
+                (click)="closeProfile()"
+              >
+                Mi Perfil
+              </a>
+            </div>
+          </div>
+
+          <nav class="arg-profile-list">
+            @for (item of profileItems; track item.label) {
+              <a
+                href="#"
+                class="arg-profile-item"
+                [class.accent]="item.accent"
+                (click)="$event.preventDefault()"
+              >
+                <i class="bi {{ item.icon }}"></i>
+                {{ item.label }}
+              </a>
+            }
+
+            <button
+              class="arg-profile-item logout"
+              type="button"
+              (click)="cerrarSesion()"
+            >
+              <i class="bi bi-power"></i>
+              Cerrar Sesión
+            </button>
+          </nav>
+        </div>
+      }
+    </div>
   </div>
 </header>

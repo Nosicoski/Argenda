@@ -1,6 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
+import { AuthService } from '../../services/auth.service';
+
 interface NavChild {
   label: string;
   link: string | null;
@@ -13,6 +15,12 @@ interface NavItem {
   children: NavChild[];
 }
 
+interface ProfileMenuItem {
+  label: string;
+  icon: string;
+  accent: boolean;
+}
+
 @Component({
   selector: 'app-topbar',
   imports: [RouterLink, RouterLinkActive],
@@ -21,9 +29,27 @@ interface NavItem {
 })
 export class Topbar {
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   // Menú desplegable abierto (por etiqueta del item)
   protected readonly openMenu = signal<string | null>(null);
+
+  protected readonly profileOpen = signal(false);
+
+  protected readonly profileEmail =
+    this.authService.currentUser()?.email ?? 'juanmanosicoski@gmail.com';
+
+  protected readonly profileId = '547933';
+
+  protected readonly profileItems: ProfileMenuItem[] = [
+    { label: 'Primeros pasos', icon: 'bi-check2-circle', accent: false },
+    { label: 'Mis Descargas', icon: 'bi-download', accent: false },
+    { label: 'Mis Tickets', icon: 'bi-journal-text', accent: false },
+    { label: 'Mis Formularios', icon: 'bi-card-checklist', accent: false },
+    { label: 'Invita y gana', icon: 'bi-gift', accent: true },
+    { label: 'Academia Argenda', icon: 'bi-play-btn', accent: false },
+    { label: 'Pagar', icon: 'bi-currency-dollar', accent: false },
+  ];
 
   protected readonly navItems: NavItem[] = [
     {
@@ -65,7 +91,7 @@ export class Topbar {
       link: null,
       menu: true,
       children: [
-        { label: 'Perfil', link: null },
+        { label: 'Perfil', link: '/perfil' },
         { label: 'Profesionales', link: '/profesionales' },
         { label: 'WhatsApp', link: null },
         { label: 'Planes', link: null },
@@ -75,10 +101,26 @@ export class Topbar {
 
   protected toggleMenu(label: string): void {
     this.openMenu.update((open) => (open === label ? null : label));
+    this.profileOpen.set(false);
   }
 
   protected closeMenu(): void {
     this.openMenu.set(null);
+  }
+
+  protected toggleProfile(): void {
+    this.profileOpen.update((open) => !open);
+    this.openMenu.set(null);
+  }
+
+  protected closeProfile(): void {
+    this.profileOpen.set(false);
+  }
+
+  protected cerrarSesion(): void {
+    this.authService.logout();
+    this.closeProfile();
+    this.router.navigate(['/iniciar-sesion']);
   }
 
   // Un item con submenú queda activo si alguna de sus rutas está abierta

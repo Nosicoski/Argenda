@@ -116,9 +116,11 @@
           [(ngModel)]="paciente"
         >
           <option value="">Busca por nombre, apellido, DNI, email</option>
-          <option value="Carla Gómez">Carla Gómez</option>
-          <option value="Martín Suárez">Martín Suárez</option>
-          <option value="Lucía Fernández">Lucía Fernández</option>
+          @for (p of pacientes(); track p.id) {
+            <option [value]="p.nombre + ' ' + p.apellido">
+              {{ p.nombre }} {{ p.apellido }}
+            </option>
+          }
         </select>
         <button class="arg-btn-outline arg-new-patient" type="button">
           <i class="bi bi-plus-lg"></i> Nuevo paciente
@@ -131,7 +133,11 @@
       <label class="arg-label" for="nrProfesional">Profesional</label>
       <div class="d-flex align-items-center gap-2">
         <select id="nrProfesional" class="form-select arg-select flex-grow-1" [(ngModel)]="profesional">
-          <option>Juan Nosicoski</option>
+          @for (pro of profesionales(); track pro.id) {
+            <option [value]="pro.nombre + ' ' + pro.apellido">
+              {{ pro.nombre }} {{ pro.apellido }}
+            </option>
+          }
         </select>
         <button class="arg-lock-btn" type="button" aria-label="Fijar profesional">
           <i class="bi bi-unlock"></i>
@@ -149,9 +155,9 @@
         [(ngModel)]="servicio"
       >
         <option value="">Seleccionar servicio</option>
-        <option value="Sesión individual">Sesión individual</option>
-        <option value="Primera consulta">Primera consulta</option>
-        <option value="Terapia de pareja">Terapia de pareja</option>
+        @for (s of servicios; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
       </select>
     </div>
 
@@ -200,7 +206,12 @@
       <button class="arg-btn-soft arg-btn-pill" type="button" [disabled]="!formComplete">
         Agregar otra reserva
       </button>
-      <button class="btn btn-arg-primary arg-btn-pill" type="button" [disabled]="!formComplete">
+      <button
+        class="btn btn-arg-primary arg-btn-pill"
+        type="button"
+        [disabled]="!formComplete"
+        (click)="guardar()"
+      >
         Guardar reserva
       </button>
     </footer>

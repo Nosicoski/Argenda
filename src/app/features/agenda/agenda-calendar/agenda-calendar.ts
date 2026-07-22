@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { NuevaReservaModal } from '../nueva-reserva-modal/nueva-reserva-modal';
-import { AppointmentService } from '../../../services/appointment.service';
+import { NuevaReservaModal, ReservaFormData } from '../nueva-reserva-modal/nueva-reserva-modal';
+import { AgendaReserva, AppointmentService } from '../../../services/appointment.service';
 
 @Component({
   selector: 'app-agenda-calendar',
@@ -26,7 +26,6 @@ export class AgendaCalendar {
   // Alto de cada fila de hora en px (debe coincidir con .arg-hour-row del CSS)
   protected readonly rowHeight = 36;
 
-  // Reservas compartidas con el flujo de reserva (mock, solo diseño)
   protected reservaEn(day: number, hour: number) {
     return (
       this.agenda
@@ -43,12 +42,11 @@ export class AgendaCalendar {
   protected readonly nowLabel = '12:01';
   protected readonly nowOffsetRows = 3 + 1 / 60;
 
-  // Celda seleccionada para agendar (solo diseño)
   protected readonly selected = signal<{ day: number; hour: number } | null>(null);
   protected readonly menuOpen = signal(false);
   protected readonly reservaOpen = signal(false);
+  protected readonly deleting = signal<AgendaReserva | null>(null);
 
-  // Fecha y hora de la celda seleccionada, para el modal
   protected readonly selectedFecha = computed(() => {
     const sel = this.selected();
     if (!sel) return 'Lunes, 20 de julio de 2026';
@@ -62,7 +60,7 @@ export class AgendaCalendar {
   });
 
   protected selectCell(hour: number, day: number): void {
-    if (this.days[day].off) return;
+    if (this.days[day].off || this.reservaEn(day, hour)) return;
     this.selected.set({ day, hour });
     this.menuOpen.set(true);
   }
@@ -80,5 +78,41 @@ export class AgendaCalendar {
   protected closeReserva(): void {
     this.reservaOpen.set(false);
     this.clearSelection();
+  }
+
+  protected guardarReserva(datos: ReservaFormData): void {
+    const sel = this.selected();
+
+    if (!sel) {
+      this.closeReserva();
+      return;
+    }
+
+    this.agenda.agregarReserva({
+      fecha: this.days[sel.day].fecha,
+      hora: this.hours[sel.hour],
+      cliente: datos.paciente,
+      servicio: datos.servicio,
+    });
+
+    this.closeReserva();
+  }
+
+  protected askDelete(reserva: AgendaReserva): void {
+    this.deleting.set(reserva);
+  }
+
+  protected cancelDelete(): void {
+    this.deleting.set(null);
+  }
+
+  protected confirmDelete(): void {
+    const reserva = this.deleting();
+
+    if (reserva) {
+      this.agenda.eliminarReserva(reserva.id);
+    }
+
+    this.deleting.set(null);
   }
 }
